@@ -6,8 +6,6 @@
 
 package TestApplications;
 import org.json.simple.JSONObject;
-import java.lang.String;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

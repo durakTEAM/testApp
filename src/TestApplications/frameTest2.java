@@ -5,12 +5,9 @@
  */
 package TestApplications;
 
-import static TestApplications.frameTest1.obj;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,7 +17,7 @@ import org.json.simple.parser.JSONParser;
  * @author aleksejtitorenko
  */
 
-    class frameTest2 extends javax.swing.JFrame {
+class frameTest2 extends javax.swing.JFrame {
     JSONParser parser = new JSONParser();
     JSONObject obj;
     JSONObject usr;
@@ -45,7 +42,10 @@ import org.json.simple.parser.JSONParser;
         Long i = (Long) obj.get("number");
         int j = i.intValue();
         resArray.set(j,res);
-        temp.set(j, 1);
+        {
+            Long l = (long) 1;
+            temp.set(j, l);
+        }
         usr.put("testsArray", temp);
         FileReader file = new FileReader("users/users.json");
         JSONParser parser = new JSONParser();
@@ -68,7 +68,10 @@ import org.json.simple.parser.JSONParser;
             return;
         }
         JSONObject x = (JSONObject) questions.get(i);
-        this.labelQuestion.setText((String)x.get("question"));
+        StringBuilder str = new StringBuilder((String)x.get("question"));
+        str.insert(0, "<html>");
+        str.insert(str.length(), "</html>");
+        this.labelQuestion.setText(str.toString());
     }
     public frameTest2(JSONObject test, JSONObject usr) throws IOException, Exception{
         initComponents();
@@ -92,10 +95,11 @@ import org.json.simple.parser.JSONParser;
         noButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         labelQuestion.setText("Вопрос");
 
-        yesButton.setText("да");
+        yesButton.setText("Да");
         yesButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 yesButtonMousePressed(evt);
@@ -107,7 +111,7 @@ import org.json.simple.parser.JSONParser;
             }
         });
 
-        noButton.setText("нет");
+        noButton.setText("Нет");
         noButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 noButtonMousePressed(evt);
@@ -124,25 +128,27 @@ import org.json.simple.parser.JSONParser;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(noButton)
-                        .addGap(39, 39, 39)
-                        .addComponent(yesButton))
-                    .addComponent(labelQuestion))
-                .addContainerGap(185, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(93, 93, 93)
+                        .addComponent(yesButton)
+                        .addGap(54, 54, 54)
+                        .addComponent(noButton)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(labelQuestion)
-                .addGap(38, 38, 38)
+                .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(noButton)
                     .addComponent(yesButton))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();

@@ -7,6 +7,8 @@ package TestApplications;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -21,13 +23,14 @@ public class enterFrame extends javax.swing.JFrame {
     
     FileReader file;
     JSONParser parser = new JSONParser();
-    JSONObject obj;
+    JSONObject usr;
     JSONArray questionsArray;
     /**
      * Creates new form enterFrame
+     * @throws java.io.FileNotFoundException
      */
     public enterFrame(JSONObject usr) throws FileNotFoundException, Exception {
-        obj = usr;
+        this.usr = usr;
         file = new FileReader("tests/test1.json");
         questionsArray = (JSONArray) parser.parse(file);
         this.file.close();
@@ -57,8 +60,10 @@ public class enterFrame extends javax.swing.JFrame {
         FIOLabel = new javax.swing.JLabel();
         testsComboBox = new javax.swing.JComboBox();
         startTestButton = new javax.swing.JButton();
+        buttonResults = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -88,6 +93,13 @@ public class enterFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonResults.setText("Отправить результаты");
+        buttonResults.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonResultsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,8 +111,10 @@ public class enterFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(testsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(startTestButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonResults)
+                            .addComponent(startTestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +125,9 @@ public class enterFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(testsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startTestButton))
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(buttonResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,14 +139,14 @@ public class enterFrame extends javax.swing.JFrame {
         Long j = (Long) temp.get("type");
         if (j==1){
         try {
-            new frameTest1((JSONObject) questionsArray.get(i), obj).setVisible(true);
+            new frameTest1((JSONObject) questionsArray.get(i), usr).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         }
         if (j==2){
         try {
-            new frameTest2((JSONObject) questionsArray.get(i), obj).setVisible(true);
+            new frameTest2((JSONObject) questionsArray.get(i), usr).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         }            
@@ -147,9 +163,9 @@ public class enterFrame extends javax.swing.JFrame {
     }
     
     private void testsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_testsComboBoxItemStateChanged
-        JSONArray i = (JSONArray) obj.get("testsArray");
-        Number j = (Number)i.get(this.testsComboBox.getSelectedIndex());
-        if (j.equals(1)) {
+        JSONArray i = (JSONArray) usr.get("testsArray");
+        Long j = (Long)i.get(this.testsComboBox.getSelectedIndex());
+        if (j == 1) {
             this.startTestButton.setEnabled(false);
             this.startTestButton.setText("Вы уже прошли этот тест");
             
@@ -162,11 +178,21 @@ public class enterFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
     }//GEN-LAST:event_formWindowOpened
-
+    private void updateSendButton() {
+        JSONArray sendedResults = (JSONArray) usr.get("sendedResults");
+        JSONArray complitedTests = (JSONArray) usr.get("testsArray");
+        if (sendedResults.equals(complitedTests)) {
+            buttonResults.setEnabled(false);
+            buttonResults.setText("<html>Вы не прошли новых <p>тестов</html>");
+        } else {
+            buttonResults.setEnabled(true);
+            buttonResults.setText("<html>Отправить результаты</html>");
+        }
+    }
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        JSONArray i = (JSONArray) obj.get("testsArray");
-        Number j = (Number)i.get(this.testsComboBox.getSelectedIndex());
-        if (j.equals(1)) {
+        JSONArray i = (JSONArray) usr.get("testsArray");
+        Long j = (Long) i.get(this.testsComboBox.getSelectedIndex());
+        if (j == 1) {
             this.startTestButton.setEnabled(false);
             this.startTestButton.setName("Пройти тест");
             
@@ -174,7 +200,33 @@ public class enterFrame extends javax.swing.JFrame {
             this.startTestButton.setEnabled(true);
             this.startTestButton.setName("Вы уже прошли этот тест");
         }
+        updateSendButton();
     }//GEN-LAST:event_formWindowActivated
+
+    private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
+        JSONArray complitedTests = (JSONArray) usr.get("testsArray");
+        
+        // TODO отправка результатов
+        usr.put("sendedResults", complitedTests);
+        try {
+            FileReader file = new FileReader("users/users.json");
+            JSONParser parser = new JSONParser();
+            JSONArray x = (JSONArray) parser.parse(file);
+            file.close();
+            int l = ((Long)usr.get("ID")).intValue();
+            x.set(l, usr);
+            FileWriter fileW = new FileWriter("users/users.json");
+            fileW.append(x.toString());
+            fileW.flush();
+            updateSendButton();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+    }//GEN-LAST:event_buttonResultsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,6 +265,7 @@ public class enterFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel FIOLabel;
+    private javax.swing.JButton buttonResults;
     private javax.swing.JButton startTestButton;
     private javax.swing.JComboBox testsComboBox;
     // End of variables declaration//GEN-END:variables

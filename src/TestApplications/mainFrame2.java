@@ -6,10 +6,8 @@
 package TestApplications;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -38,6 +36,12 @@ public class mainFrame2 extends javax.swing.JFrame {
             JSONObject tmp = (JSONObject) usersArray.get(i);
             this.chooseUserComboBox.addItem(tmp.get("name"));
         }
+        if (usersArray.size() == 0) {
+            enterUserButton.setEnabled(false);
+        }
+        if (chooseUserComboBox.getItemCount() != 0) {
+            this.chooseUserComboBox.setSelectedIndex(chooseUserComboBox.getItemCount()-1);
+        }
     }
 
     /**
@@ -60,6 +64,8 @@ public class mainFrame2 extends javax.swing.JFrame {
         chooseUserComboBox = new javax.swing.JComboBox();
         createUserButton = new javax.swing.JButton();
         enterUserButton = new javax.swing.JButton();
+        label1 = new javax.swing.JLabel();
+        buttonExit = new javax.swing.JButton();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -85,7 +91,20 @@ public class mainFrame2 extends javax.swing.JFrame {
         jMenu2.setText("jMenu2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
+        chooseUserComboBox.setMaximumRowCount(5);
+        chooseUserComboBox.setMaximumSize(new java.awt.Dimension(20, 8));
+        chooseUserComboBox.setMinimumSize(new java.awt.Dimension(20, 8));
+        chooseUserComboBox.setSize(new java.awt.Dimension(8, 0));
         chooseUserComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chooseUserComboBoxActionPerformed(evt);
@@ -111,28 +130,48 @@ public class mainFrame2 extends javax.swing.JFrame {
             }
         });
 
+        label1.setText("Выберите пользователя");
+
+        buttonExit.setText("Завершить программу");
+        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(chooseUserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                .addComponent(enterUserButton)
-                .addGap(18, 18, 18)
-                .addComponent(createUserButton)
-                .addGap(34, 34, 34))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(chooseUserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(enterUserButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(createUserButton))
+                    .addComponent(label1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(buttonExit)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
+                .addComponent(label1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chooseUserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createUserButton)
-                    .addComponent(enterUserButton))
-                .addContainerGap(248, Short.MAX_VALUE))
+                    .addComponent(enterUserButton)
+                    .addComponent(createUserButton))
+                .addGap(18, 18, 18)
+                .addComponent(buttonExit)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         pack();
@@ -149,8 +188,6 @@ public class mainFrame2 extends javax.swing.JFrame {
     private void createUserButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createUserButtonMouseClicked
         this.setVisible(false);
         new mainFrame().setVisible(true);
-
-        // curUsr.put("", file);
     }//GEN-LAST:event_createUserButtonMouseClicked
 
     private void enterUserButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterUserButtonMousePressed
@@ -162,6 +199,20 @@ public class mainFrame2 extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_enterUserButtonMousePressed
+
+    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
+        // TODO запилить выход
+    }//GEN-LAST:event_buttonExitActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if (chooseUserComboBox.getItemCount() != 0) {
+            this.chooseUserComboBox.setSelectedIndex(chooseUserComboBox.getItemCount()-1);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -205,6 +256,7 @@ public class mainFrame2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonExit;
     private javax.swing.JComboBox chooseUserComboBox;
     private javax.swing.JButton createUserButton;
     private javax.swing.JButton enterUserButton;
@@ -214,6 +266,7 @@ public class mainFrame2 extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JLabel label1;
     private java.awt.PopupMenu popupMenu1;
     private java.awt.PopupMenu popupMenu2;
     // End of variables declaration//GEN-END:variables

@@ -20,6 +20,8 @@ import org.json.simple.parser.JSONParser;
  * @author artemsamsonov
  */
 public class mainFrame extends javax.swing.JFrame {
+    
+    final private int countOfTests = 10; 
 
     /**
      * Creates new form mainFrame
@@ -49,6 +51,7 @@ public class mainFrame extends javax.swing.JFrame {
         applyButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         labelUserLastname.setText("Фамилия: ");
         labelUserLastname.setAutoscrolls(true);
@@ -79,7 +82,7 @@ public class mainFrame extends javax.swing.JFrame {
         textUserType.setRows(4);
         jScrollPane1.setViewportView(textUserType);
 
-        applyButton.setText("Okaaay");
+        applyButton.setText("Создать пользователя");
         applyButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 applyButtonMousePressed(evt);
@@ -113,13 +116,14 @@ public class mainFrame extends javax.swing.JFrame {
                                     .addComponent(labelUserLastname)
                                     .addGap(18, 18, 18)
                                     .addComponent(textUserLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(labelUserType))
-                        .addGap(80, 80, 80)
-                        .addComponent(applyButton))
+                            .addComponent(labelUserType)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(288, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(applyButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,17 +137,16 @@ public class mainFrame extends javax.swing.JFrame {
                     .addComponent(labelUserName)
                     .addComponent(textUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelUserSurname)
-                            .addComponent(textUserSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelUserType))
-                    .addComponent(applyButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelUserSurname)
+                    .addComponent(textUserSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelUserType)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(applyButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -181,9 +184,10 @@ public class mainFrame extends javax.swing.JFrame {
                 curUsr.put("lastName", textUserLastname.getText());
                 curUsr.put("firstName", textUserSurname.getText());
                 curUsr.put("position", textUserType.getText());
-                curUsr.put("testsArray", makeVoidArray(10));
-                curUsr.put("testsResults", makeVoidArray(10));
+                curUsr.put("testsArray", makeVoidArray(countOfTests));
+                curUsr.put("testsResults", makeVoidArray(countOfTests));
                 curUsr.put("ID", obj.size());
+                curUsr.put("sendedResults", makeVoidArray(countOfTests));
                 obj.add(curUsr);
                 FileWriter fileW = new FileWriter("users/users.json");
                 fileW.append(obj.toString());
