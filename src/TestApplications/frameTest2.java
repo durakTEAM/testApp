@@ -47,16 +47,7 @@ class frameTest2 extends javax.swing.JFrame {
             temp.set(j, l);
         }
         usr.put("testsArray", temp);
-        FileReader file = new FileReader("users/users.json");
-        JSONParser parser = new JSONParser();
-        JSONArray x = (JSONArray) parser.parse(file);
-        file.close();
-        
-        int l = ((Long)usr.get("ID")).intValue();
-        x.set(l, usr);
-        FileWriter fileW = new FileWriter("users/users.json");
-        fileW.append(x.toString());
-        fileW.flush();
+        FileWorker.write("users/users.json", usr);
         this.setVisible(false);
     }
     private int toInt(JSONObject o, String s) {
