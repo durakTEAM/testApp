@@ -17,18 +17,15 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-public class Test4Controller {
+public class Test4Controller extends TestController {
     private Test4View view;
     public LinkedList<String> questions = new LinkedList<>();
     private int[] ans = new int[25];
     int step = 0;
-    private Long n;
-    private JSONObject usr;
     
     Test4Controller(Test4View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+        super(view, usr, test);
         this.view = view;
-        this.usr = usr;
-        n = (Long) test.get("number");
         Scanner in = new Scanner(new File((String) test.get("qPath")));
         while(in.hasNext())
             this.questions.add(in.nextLine());
@@ -65,13 +62,6 @@ public class Test4Controller {
             step--;
             update();
         } 
-    }
-    void finishTest() throws Exception {
-        Long res = getTestCnt();
-        this.updateUsr(usr, "testsArray", new Long("1"));
-        this.updateUsr(usr, "testsResults", res);
-        FileWorker.write("users/users.json", usr);
-        this.view.setVisible(false);
     }
     void updateUsr(JSONObject usr, CharSequence key, Object v) {
         JSONArray temp = (JSONArray) usr.get(key);

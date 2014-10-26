@@ -22,17 +22,14 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-public class Test3Controller {
+public class Test3Controller extends TestController{
     public List<String[]> test;
     private TreeSet<String> key = new TreeSet<>();
-    private JSONObject usr;
     private Test3View view;
-    private Long n;
     
     Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
+        super(view, usr, t);
         this.view = view;
-        this.usr = usr;
-        n = (Long) t.get("number");
         CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
         test = reader.readAll();
         String str = (String) t.get("key");
@@ -133,16 +130,10 @@ public class Test3Controller {
     void finishTest() throws Exception {
         Long res = getTestCnt();
         if (res >= 0) {
-            this.updateUsr(usr, "testsArray", new Long("1"));
-            this.updateUsr(usr, "testsResults", res);
+            JSONWorker.updateUsr(usr, "testsArray", new Long("1"), n.intValue());
+            JSONWorker.updateUsr(usr, "testsResults", res, n.intValue());
             FileWorker.write("users/users.json", usr);
             this.view.setVisible(false);
         }
-    }
-    
-    void updateUsr(JSONObject usr, CharSequence key, Object v) {
-        JSONArray temp = (JSONArray) usr.get(key);
-        temp.set(n.intValue(), v);
-        usr.put(key, temp);
-    }
+    }   
 }

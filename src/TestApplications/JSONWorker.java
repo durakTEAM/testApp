@@ -5,10 +5,17 @@
  */
 package TestApplications;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author artemsamsonov
  */
 public class JSONWorker {
-    
+    static void updateUsr(JSONObject usr, CharSequence key, Object v, int n) {
+        JSONArray temp = (JSONArray) usr.get(key);
+        temp.set(n, v);
+        usr.put(key, temp);
+    }
 }
