@@ -5,8 +5,11 @@
  */
 package TestApplications;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -17,5 +20,20 @@ public class JSONWorker {
         JSONArray temp = (JSONArray) usr.get(key);
         temp.set(n, v);
         usr.put(key, temp);
+    }
+    static JSONArray open(CharSequence path) throws FileNotFoundException, Exception {
+        JSONParser parser = new JSONParser();
+        FileReader file = new FileReader((String) path);
+        JSONArray arr = (JSONArray) parser.parse(file);
+        file.close();
+        return arr;
+    }
+    static JSONObject open(CharSequence path, int id) throws FileNotFoundException, Exception {
+        JSONParser parser = new JSONParser();
+        FileReader file = new FileReader((String) path);
+        JSONArray arr = (JSONArray) parser.parse(file);
+        file.close();
+        JSONObject usr = (JSONObject) arr.get(id);
+        return usr;
     }
 }

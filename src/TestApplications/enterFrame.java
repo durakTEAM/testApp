@@ -220,7 +220,11 @@ public class enterFrame extends javax.swing.JFrame {
     private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
         JSONArray complitedTests = (JSONArray) usr.get("testsArray");
         
-        // TODO отправка результатов
+        try {
+            CSVWorker.makeCSVTemplate(((Long)usr.get("ID")).intValue());
+        } catch (Exception ex) {
+            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         usr.put("sendedResults", complitedTests);
         try {
             FileReader file = new FileReader("users/users.json");
