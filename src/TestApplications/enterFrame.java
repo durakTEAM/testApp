@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -20,6 +21,10 @@ import org.json.simple.parser.JSONParser;
  * @author aleksejtitorenko
  */
 public class enterFrame extends javax.swing.JFrame {
+    final String to = "a.a.titorenko@gmail.com";
+    final String from = "samsonov68rus@gmail.com";
+    final String password = "cfvcjyjdfhn`v";
+    final String filename = "";
     
     FileReader file;
     JSONParser parser = new JSONParser();
@@ -45,6 +50,7 @@ public class enterFrame extends javax.swing.JFrame {
     }
 
     private enterFrame() {
+       
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -218,8 +224,7 @@ public class enterFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
-        JSONArray complitedTests = (JSONArray) usr.get("testsArray");
-        
+        JSONArray complitedTests = (JSONArray) usr.get("testsArray");ч
         try {
             CSVWorker.makeCSVTemplate(((Long)usr.get("ID")).intValue());
         } catch (Exception ex) {
@@ -244,6 +249,7 @@ public class enterFrame extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         }   
+        SendAttachmentInEmail.send(this.to, this.from, this.password, this.filename);
     }//GEN-LAST:event_buttonResultsActionPerformed
 
     /**
