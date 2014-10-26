@@ -151,6 +151,20 @@ public class enterFrame extends javax.swing.JFrame {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         }            
         }
+        if (j == 3) {
+            try {
+                new Test3View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (j == 4) {
+            try {
+                new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_startTestButtonActionPerformed
 
     private void startTestButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startTestButtonMousePressed
@@ -206,7 +220,11 @@ public class enterFrame extends javax.swing.JFrame {
     private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
         JSONArray complitedTests = (JSONArray) usr.get("testsArray");
         
-        // TODO отправка результатов
+        try {
+            CSVWorker.makeCSVTemplate(((Long)usr.get("ID")).intValue());
+        } catch (Exception ex) {
+            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         usr.put("sendedResults", complitedTests);
         try {
             FileReader file = new FileReader("users/users.json");

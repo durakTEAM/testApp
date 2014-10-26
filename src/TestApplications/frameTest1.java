@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -64,16 +63,7 @@ class frameTest1 extends javax.swing.JFrame {
         Long k = (long) 1;
         temp.set(j, k);
         usr.put("testsArray", temp);
-        FileReader file = new FileReader("users/users.json");
-        JSONParser parser = new JSONParser();
-        JSONArray x = (JSONArray) parser.parse(file);
-        file.close();
-        int l = ((Long)usr.get("ID")).intValue();
-        x.set(l, usr);
-        FileWriter fileW = new FileWriter("users/users.json");
-        fileW.append(x.toString());
-        fileW.flush();
-        this.setVisible(false);
+        FileWorker.write("users/users.json", usr);
     }
     
     private int toInt(JSONObject o, String s) {
@@ -267,7 +257,7 @@ class frameTest1 extends javax.swing.JFrame {
         if (sum == 11){
             answersList.set(step, temp);
             step++;
-            if(step == 2) {
+            if(step == 32) {
                 try {
                     finishTest();
                 } catch (Exception ex) {
