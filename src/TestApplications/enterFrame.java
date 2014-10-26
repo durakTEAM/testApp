@@ -158,6 +158,13 @@ public class enterFrame extends javax.swing.JFrame {
                 Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if (j == 4) {
+            try {
+                new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+            } catch (IOException ex) {
+                Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_startTestButtonActionPerformed
 
     private void startTestButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startTestButtonMousePressed

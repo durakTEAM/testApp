@@ -257,7 +257,7 @@ class frameTest1 extends javax.swing.JFrame {
         if (sum == 11){
             answersList.set(step, temp);
             step++;
-            if(step == 2) {
+            if(step == 32) {
                 try {
                     finishTest();
                 } catch (Exception ex) {
