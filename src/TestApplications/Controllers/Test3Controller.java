@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.TreeSet;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import org.json.simple.JSONObject;
 
@@ -41,10 +39,6 @@ public class Test3Controller extends TestController{
     }
     
     public void fillTestTable() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-        }
         DefaultTableModel model = this.makeModel();
         this.view.tableTests.setModel(model);
         for (int i = 0; i < model.getColumnCount(); i++) {

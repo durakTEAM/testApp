@@ -5,6 +5,7 @@
  */
 package TestApplications;
 
+import TestApplications.Workers.SendAttachmentInEmailWorker;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Views.Test3View;
 import TestApplications.Views.Test4View;
@@ -217,7 +218,7 @@ public class enterFrame extends javax.swing.JFrame {
             CSVWorker.makeCSVTemplate((int) usr.get("ID"));
             FileWorker.write("users/users.json", usr);
             updateSendButton();
-            SendAttachmentInEmail.send(this.to, this.from, this.password, this.filename);
+            SendAttachmentInEmailWorker.send(this.to, this.from, this.password, this.filename);
             JSONArray complitedTests = (JSONArray) usr.get("testsArray");
             usr.put("sendedResults", complitedTests);
         } catch (FileNotFoundException ex) {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Workers;
 
 
 import java.util.Properties;
@@ -26,7 +26,7 @@ import javax.mail.internet.MimeMultipart;
  *
  * @author aleksejtitorenko
  */
-public class SendAttachmentInEmail {
+public class SendAttachmentInEmailWorker {
    public static void send(String... parametrs) {
       // Recipient's email ID needs to be mentioned.
       String to = parametrs[0];
