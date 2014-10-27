@@ -3,45 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Views;
 
+import TestApplications.Controllers.AuthController;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author aleksejtitorenko
  */
-public class mainFrame2 extends javax.swing.JFrame {
 
-    FileReader file;
-    JSONParser parser = new JSONParser();
-    JSONObject obj;
-    JSONArray usersArray;
+public class AuthView extends javax.swing.JFrame {
 
-    public void addUsr(PassedQuestionnare a) {
-        
-    }
+    private AuthController controller;
+
     
-    public mainFrame2() throws FileNotFoundException, Exception {
+    public AuthView() throws FileNotFoundException, Exception {
         initComponents();
-        file = new FileReader("users/users.json");
-        usersArray = (JSONArray) parser.parse(file);
-        this.file.close();
-        for (int i = 0; i < usersArray.size(); i++) {
-            JSONObject tmp = (JSONObject) usersArray.get(i);
-            this.chooseUserComboBox.addItem(tmp.get("name"));
-        }
-        if (usersArray.size() == 0) {
-            enterUserButton.setEnabled(false);
-        }
-        if (chooseUserComboBox.getItemCount() != 0) {
-            this.chooseUserComboBox.setSelectedIndex(chooseUserComboBox.getItemCount()-1);
-        }
+        this.controller = new AuthController(this);
     }
 
     /**
@@ -182,21 +163,15 @@ public class mainFrame2 extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseUserComboBoxActionPerformed
 
     private void enterUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterUserButtonActionPerformed
-
+        this.controller.enter();
     }//GEN-LAST:event_enterUserButtonActionPerformed
 
     private void createUserButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createUserButtonMouseClicked
-        this.setVisible(false);
-        new mainFrame().setVisible(true);
+        this.controller.create();
     }//GEN-LAST:event_createUserButtonMouseClicked
 
     private void enterUserButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterUserButtonMousePressed
-        this.setVisible(false);
-        try {
-            new enterFrame((JSONObject) usersArray.get(chooseUserComboBox.getSelectedIndex())).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(mainFrame2.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         
     }//GEN-LAST:event_enterUserButtonMousePressed
 
@@ -209,9 +184,7 @@ public class mainFrame2 extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (chooseUserComboBox.getItemCount() != 0) {
-            this.chooseUserComboBox.setSelectedIndex(chooseUserComboBox.getItemCount()-1);
-        }
+        
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -231,14 +204,15 @@ public class mainFrame2 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mainFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mainFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mainFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(mainFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AuthView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -246,10 +220,10 @@ public class mainFrame2 extends javax.swing.JFrame {
             public void run() {
 
                 try {
-                    new mainFrame2().setVisible(true);
+                    new AuthView().setVisible(true);
 
                 } catch (Exception ex) {
-                    Logger.getLogger(mainFrame2.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -257,9 +231,9 @@ public class mainFrame2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonExit;
-    private javax.swing.JComboBox chooseUserComboBox;
+    public javax.swing.JComboBox chooseUserComboBox;
     private javax.swing.JButton createUserButton;
-    private javax.swing.JButton enterUserButton;
+    public javax.swing.JButton enterUserButton;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

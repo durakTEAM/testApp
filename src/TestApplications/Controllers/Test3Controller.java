@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Controllers;
 
+import TestApplications.Workers.FileWorker;
+import TestApplications.Workers.JSONWorker;
+import TestApplications.Views.Test3View;
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -25,9 +27,9 @@ import org.json.simple.JSONObject;
 public class Test3Controller extends TestController{
     public List<String[]> test;
     private TreeSet<String> key = new TreeSet<>();
-    private Test3View view;
+    private final Test3View view;
     
-    Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
+    public Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
         super(view, usr, t);
         this.view = view;
         CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
@@ -38,7 +40,7 @@ public class Test3Controller extends TestController{
         }
     }
     
-    void fillTestTable() {
+    public void fillTestTable() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
@@ -68,7 +70,7 @@ public class Test3Controller extends TestController{
             }
         }
     }
-    DefaultTableModel makeModel(){
+    private DefaultTableModel makeModel(){
         String[] a = test.get(0);
         int r = test.size();
         DefaultTableModel model = new DefaultTableModel() {
@@ -104,8 +106,9 @@ public class Test3Controller extends TestController{
         return model;
     }
     
-    Long getTestCnt() {
-        Long res = new Long("0");
+    @Override
+    int getTestCnt() {
+        int res = 0;
         Integer [] ans = new Integer[2];
         for (int i = 0; i < this.view.tableTests.getRowCount(); i++) {
             int cnt = 0;
@@ -118,7 +121,7 @@ public class Test3Controller extends TestController{
             }
             if (cnt != 1) {
                 JOptionPane.showMessageDialog(this.view, "Некорректный ответ в строке " + (i+1));
-                return new Long("-1");
+                return -1;
             } else {
                 String a = ans[0].toString() + '/' + ans[1].toString();
                 res += this.key.contains(a) ? 1 : 0;
@@ -127,10 +130,11 @@ public class Test3Controller extends TestController{
         return res;
     }
     
-    void finishTest() throws Exception {
-        Long res = getTestCnt();
+    @Override
+    public void finishTest() throws Exception {
+        int res = getTestCnt();
         if (res >= 0) {
-            JSONWorker.updateUsr(usr, "testsArray", new Long("1"), n.intValue());
+            JSONWorker.updateUsr(usr, "testsArray", 1, n.intValue());
             JSONWorker.updateUsr(usr, "testsResults", res, n.intValue());
             FileWorker.write("users/users.json", usr);
             this.view.setVisible(false);

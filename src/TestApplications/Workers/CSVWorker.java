@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Workers;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileWriter;
@@ -16,11 +16,11 @@ import org.json.simple.JSONObject;
  */
 public class CSVWorker {
     
-    static void makeCSVTemplate(int id) throws Exception {
+    static public void makeCSVTemplate(int id) throws Exception {
         JSONArray arr = JSONWorker.open("tests/test1.json");
         JSONObject usr = JSONWorker.open("users/users.json", id);
         char q = 0;
-        try (CSVWriter writer = new CSVWriter(new FileWriter("template.csv"), '\n', q)) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter("user"+id+"res.csv"), '\n', q)) {
             String[] entries = new String[arr.size()+3];
             
             entries[0] = "ФИО:;" + usr.get("lastName") + " " + usr.get("name")
@@ -31,7 +31,7 @@ public class CSVWorker {
             JSONArray res = (JSONArray) usr.get("testsResults");
             String str;
             for (int i = 0; i < arr.size(); i++) {
-                if ((Long)testArr.get(i) == 1) {
+                if ((int)testArr.get(i) == 1) {
                     str = res.get(i).toString();
                 } else {
                     str = "Не пройден";

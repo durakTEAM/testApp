@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Views;
 
+import TestApplications.Controllers.Test3Controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

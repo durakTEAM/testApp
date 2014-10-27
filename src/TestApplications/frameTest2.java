@@ -5,6 +5,7 @@
  */
 package TestApplications;
 
+import TestApplications.Workers.FileWorker;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,13 +40,9 @@ class frameTest2 extends javax.swing.JFrame {
         
         JSONArray temp = (JSONArray) usr.get("testsArray");
         JSONArray resArray = (JSONArray) usr.get("testsResults");
-        Long i = (Long) obj.get("number");
-        int j = i.intValue();
-        resArray.set(j,res);
-        {
-            Long l = (long) 1;
-            temp.set(j, l);
-        }
+        int i = ((Long) obj.get("number")).intValue();
+        resArray.set(i,res);
+        temp.set(i, 1);
         usr.put("testsArray", temp);
         FileWorker.write("users/users.json", usr);
         this.setVisible(false);

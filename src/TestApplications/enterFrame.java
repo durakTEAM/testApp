@@ -5,29 +5,28 @@
  */
 package TestApplications;
 
+import TestApplications.Workers.CSVWorker;
+import TestApplications.Views.Test3View;
+import TestApplications.Views.Test4View;
+import TestApplications.Workers.FileWorker;
+import TestApplications.Workers.JSONWorker;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author aleksejtitorenko
  */
 public class enterFrame extends javax.swing.JFrame {
-    final String to = "a.a.titorenko@gmail.com";
-    final String from = "samsonov68rus@gmail.com";
-    final String password = "cfvcjyjdfhn`v";
-    final String filename = "";
+    private final String to = "a.a.titorenko@gmail.com";
+    private final String from = "samsonov68rus@gmail.com";
+    private final String password = "cfvcjyjdfhn`v";
+    private String filename;
     
-    FileReader file;
-    JSONParser parser = new JSONParser();
     JSONObject usr;
     JSONArray questionsArray;
     /**
@@ -36,9 +35,8 @@ public class enterFrame extends javax.swing.JFrame {
      */
     public enterFrame(JSONObject usr) throws FileNotFoundException, Exception {
         this.usr = usr;
-        file = new FileReader("tests/test1.json");
-        questionsArray = (JSONArray) parser.parse(file);
-        this.file.close();
+        questionsArray = JSONWorker.open("tests/test1.json");
+        this.filename = "user"+usr.get("ID")+"res.csv";
         initComponents();
         this.FIOLabel.setText(usr.get("name").toString() +" "
                 + usr.get("lastName").toString()+" "
@@ -50,7 +48,6 @@ public class enterFrame extends javax.swing.JFrame {
     }
 
     private enterFrame() {
-       
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -140,59 +137,48 @@ public class enterFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestButtonActionPerformed
-        int i = this.testsComboBox.getSelectedIndex();
-        JSONObject temp = (JSONObject) questionsArray.get(i);
-        Long j = (Long) temp.get("type");
-        if (j==1){
         try {
-            new frameTest1((JSONObject) questionsArray.get(i), usr).setVisible(true);
+            int i = this.testsComboBox.getSelectedIndex();
+            int j = (int) JSONWorker.get(questionsArray, i).get("type");
+            if (j==1){
+                try {
+                    new frameTest1((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (j==2){
+                try {
+                    new frameTest2((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (j == 3) {
+                try {
+                    new Test3View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (j == 4) {
+                try {
+                    new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
-        if (j==2){
-        try {
-            new frameTest2((JSONObject) questionsArray.get(i), usr).setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }            
-        }
-        if (j == 3) {
-            try {
-                new Test3View((JSONObject) questionsArray.get(i), usr).setVisible(true);
-            } catch (IOException ex) {
-                Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (j == 4) {
-            try {
-                new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
-            } catch (IOException ex) {
-                Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }//GEN-LAST:event_startTestButtonActionPerformed
 
     private void startTestButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startTestButtonMousePressed
         
     }//GEN-LAST:event_startTestButtonMousePressed
-
-    private boolean isTestComplited(JSONArray o, Number s) {
-        int i = s.intValue();
-        return o.get(i).equals(0);
-    }
     
     private void testsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_testsComboBoxItemStateChanged
-        JSONArray i = (JSONArray) usr.get("testsArray");
-        Long j = (Long)i.get(this.testsComboBox.getSelectedIndex());
-        if (j == 1) {
-            this.startTestButton.setEnabled(false);
-            this.startTestButton.setText("Вы уже прошли этот тест");
-            
-        } else {
-            this.startTestButton.setEnabled(true);
-            this.startTestButton.setText("Пройти тест");
-        }
+        updateTestBtn();
     }//GEN-LAST:event_testsComboBoxItemStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -209,47 +195,38 @@ public class enterFrame extends javax.swing.JFrame {
             buttonResults.setText("<html>Отправить результаты</html>");
         }
     }
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void updateTestBtn() {
         JSONArray i = (JSONArray) usr.get("testsArray");
-        Long j = (Long) i.get(this.testsComboBox.getSelectedIndex());
+        int j = (int) i.get(this.testsComboBox.getSelectedIndex());
         if (j == 1) {
             this.startTestButton.setEnabled(false);
-            this.startTestButton.setName("Пройти тест");
+            this.startTestButton.setText("Вы уже прошли этот тест");
             
         } else {
             this.startTestButton.setEnabled(true);
-            this.startTestButton.setName("Вы уже прошли этот тест");
+            this.startTestButton.setText("Пройти тест");
         }
+    }
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        updateTestBtn();
         updateSendButton();
     }//GEN-LAST:event_formWindowActivated
 
     private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
-        JSONArray complitedTests = (JSONArray) usr.get("testsArray");ч
         try {
-            CSVWorker.makeCSVTemplate(((Long)usr.get("ID")).intValue());
-        } catch (Exception ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        usr.put("sendedResults", complitedTests);
-        try {
-            FileReader file = new FileReader("users/users.json");
-            JSONParser parser = new JSONParser();
-            JSONArray x = (JSONArray) parser.parse(file);
-            file.close();
-            int l = ((Long)usr.get("ID")).intValue();
-            x.set(l, usr);
-            FileWriter fileW = new FileWriter("users/users.json");
-            fileW.append(x.toString());
-            fileW.flush();
+            CSVWorker.makeCSVTemplate((int) usr.get("ID"));
+            FileWorker.write("users/users.json", usr);
             updateSendButton();
+            SendAttachmentInEmail.send(this.to, this.from, this.password, this.filename);
+            JSONArray complitedTests = (JSONArray) usr.get("testsArray");
+            usr.put("sendedResults", complitedTests);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }   
-        SendAttachmentInEmail.send(this.to, this.from, this.password, this.filename);
+        }
     }//GEN-LAST:event_buttonResultsActionPerformed
 
     /**

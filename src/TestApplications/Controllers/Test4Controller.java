@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Controllers;
 
+import TestApplications.Views.Test4View;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,18 +21,18 @@ public class Test4Controller extends TestController {
     private Test4View view;
     public LinkedList<String> questions = new LinkedList<>();
     private int[] ans = new int[25];
-    int step = 0;
+    private int step = 0;
     
-    Test4Controller(Test4View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test4Controller(Test4View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
         super(view, usr, test);
         this.view = view;
-        Scanner in = new Scanner(new File((String) test.get("qPath")));
-        while(in.hasNext())
-            this.questions.add(in.nextLine());
-        in.close();
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+            while(in.hasNext())
+                this.questions.add(in.nextLine());
+        }
     }
     
-    void update() {
+    public void update() {
         if (step == 0) {
             this.view.btnPrev.setEnabled(false);
         } else {
@@ -47,7 +47,7 @@ public class Test4Controller extends TestController {
         this.view.labelQuestins.setText(step+1 + ") " + this.questions.get(step));
     }
     
-    void next() throws Exception {
+    public void next() throws Exception {
         if (step+1 < ans.length) {
             ans[step++] = this.view.slider.getValue();
             update();
@@ -57,7 +57,7 @@ public class Test4Controller extends TestController {
         
     }
     
-    void prev() {
+    public void prev() {
         if (step - 1 >= 0) {
             step--;
             update();
@@ -68,8 +68,9 @@ public class Test4Controller extends TestController {
         temp.set(n.intValue(), v);
         usr.put(key, temp);
     }
-    Long getTestCnt() {
-        Long res = new Long("0");
+    @Override
+    int getTestCnt() {
+        int res = 0;
         for (int i : this.ans) {
             res += i;
         }

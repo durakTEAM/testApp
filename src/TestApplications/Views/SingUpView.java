@@ -3,33 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Views;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import TestApplications.Controllers.SingUpController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
  * @author artemsamsonov
  */
-public class mainFrame extends javax.swing.JFrame {
-    
-    final private int countOfTests = 10; 
-
+public class SingUpView extends javax.swing.JFrame {
+    private SingUpController controller;
     /**
      * Creates new form mainFrame
      */
-    public mainFrame() {
+    public SingUpView() throws Exception {
+        this.controller = new SingUpController(this);
         initComponents();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,55 +149,15 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_textUserLastnameActionPerformed
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_applyButtonActionPerformed
-
-    private JSONArray makeVoidArray(int n) {
-        JSONArray temp = new JSONArray();
-        for (int i = 0; i < n; i++) {
-            temp.add(0);
+        try {
+            this.controller.apply();
+        } catch (Exception ex) {
+            Logger.getLogger(SingUpView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return temp;
-    }
+    }//GEN-LAST:event_applyButtonActionPerformed
     
     private void applyButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyButtonMousePressed
-        JSONObject curUsr = new JSONObject();
-        if (!this.textUserName.getText().isEmpty()
-                && !this.textUserLastname.getText().isEmpty()
-                && !this.textUserSurname.getText().isEmpty()
-                && !this.textUserType.getText().isEmpty()) {
-            FileReader file = null;
-            try {
-                JSONParser parser = new JSONParser();
-                file = new FileReader("users/users.json");
-                JSONArray obj = (JSONArray) parser.parse(file);
-                file.close();
-                curUsr.put("name", textUserName.getText());
-                curUsr.put("lastName", textUserLastname.getText());
-                curUsr.put("firstName", textUserSurname.getText());
-                curUsr.put("position", textUserType.getText());
-                curUsr.put("testsArray", makeVoidArray(countOfTests));
-                curUsr.put("testsResults", makeVoidArray(countOfTests));
-                curUsr.put("ID", obj.size());
-                curUsr.put("sendedResults", makeVoidArray(countOfTests));
-                obj.add(curUsr);
-                FileWriter fileW = new FileWriter("users/users.json");
-                fileW.append(obj.toString());
-                fileW.flush();
-                this.setVisible(false);
-                new mainFrame2().setVisible(true);
-          } catch (FileNotFoundException ex) {
-                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    file.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
+        
     }//GEN-LAST:event_applyButtonMousePressed
 
     /**
@@ -225,20 +177,25 @@ public class mainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SingUpView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SingUpView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SingUpView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SingUpView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mainFrame().setVisible(true);
+                try {
+                    new SingUpView().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(SingUpView.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -250,9 +207,9 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelUserName;
     private javax.swing.JLabel labelUserSurname;
     private javax.swing.JLabel labelUserType;
-    private javax.swing.JTextField textUserLastname;
-    private javax.swing.JTextField textUserName;
-    private javax.swing.JTextField textUserSurname;
-    private javax.swing.JTextArea textUserType;
+    public javax.swing.JTextField textUserLastname;
+    public javax.swing.JTextField textUserName;
+    public javax.swing.JTextField textUserSurname;
+    public javax.swing.JTextArea textUserType;
     // End of variables declaration//GEN-END:variables
 }

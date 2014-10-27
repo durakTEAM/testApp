@@ -6,6 +6,7 @@
 
 package TestApplications;
 
+import TestApplications.Workers.FileWorker;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -56,12 +57,10 @@ class frameTest1 extends javax.swing.JFrame {
         } 
         JSONArray res = (JSONArray) usr.get("testsResults");
         JSONArray temp = (JSONArray) usr.get("testsArray");
-        Long i = (Long) obj.get("number");
-        int j = i.intValue();
-        res.set(j, toJSONArr(results));
+        int i = ((Long) obj.get("number")).intValue();
+        res.set(i, toJSONArr(results));
         usr.put("testsResults", res);
-        Long k = (long) 1;
-        temp.set(j, k);
+        temp.set(i, 1);
         usr.put("testsArray", temp);
         FileWorker.write("users/users.json", usr);
     }
