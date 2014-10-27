@@ -167,7 +167,11 @@ public class AuthView extends javax.swing.JFrame {
     }//GEN-LAST:event_enterUserButtonActionPerformed
 
     private void createUserButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createUserButtonMouseClicked
-        this.controller.create();
+        try {
+            this.controller.create();
+        } catch (Exception ex) {
+            Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_createUserButtonMouseClicked
 
     private void enterUserButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterUserButtonMousePressed

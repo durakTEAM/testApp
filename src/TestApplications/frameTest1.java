@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+// TODO сделать результаты теста csv строкой с названиями критериев
 package TestApplications;
 
 import TestApplications.Workers.FileWorker;
@@ -31,12 +31,12 @@ public class frameTest1 extends javax.swing.JFrame {
     /**
      * Creates new form frameTest1
      */
-    private JSONArray toJSONArr(int[] arr) {
-        JSONArray temp = new JSONArray();
+    private String toStr(int[] arr) {
+        StringBuilder temp = new StringBuilder();
         for (int i : arr) {
-            temp.add(i);
+            temp.append(i).append(";\n");
         }
-        return temp;
+        return temp.toString();
     }
     public void finishTest() throws IOException, Exception {
         for (int i = 0; i < 33; i++) {
@@ -58,7 +58,7 @@ public class frameTest1 extends javax.swing.JFrame {
         JSONArray res = (JSONArray) usr.get("testsResults");
         JSONArray temp = (JSONArray) usr.get("testsArray");
         int i = ((Long) obj.get("number")).intValue();
-        res.set(i, toJSONArr(results));
+        res.set(i, toStr(results));
         usr.put("testsResults", res);
         temp.set(i, 1);
         usr.put("testsArray", temp);

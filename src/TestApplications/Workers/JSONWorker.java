@@ -86,9 +86,9 @@ public class JSONWorker {
      * be converted to array<int>
      */
     static private void convertArraysToInt(JSONObject usr){
-        if (usr.containsKey("testsResults")) {
+        /*if (usr.containsKey("testsResults")) {
             usr.put("testsResults", longToInt((JSONArray) usr.get("testsResults")));
-        }
+        }*/
         if (usr.containsKey("testsArray")) {
             usr.put("testsArray", longToInt((JSONArray) usr.get("testsArray")));
         }    

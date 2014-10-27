@@ -8,6 +8,7 @@ package TestApplications.Controllers;
 import TestApplications.Views.EnterView;
 import TestApplications.Views.Test3View;
 import TestApplications.Views.Test4View;
+import TestApplications.Views.Test5View;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
@@ -119,6 +120,9 @@ public class EnterController {
                 } catch (IOException ex) {
                     Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            if (j == 5) {
+                new Test5View((JSONObject) questionsArray.get(i), usr).setVisible(true);
             }
         } catch (Exception ex) {
             Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
