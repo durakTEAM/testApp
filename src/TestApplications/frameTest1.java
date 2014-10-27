@@ -19,7 +19,7 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-class frameTest1 extends javax.swing.JFrame {
+public class frameTest1 extends javax.swing.JFrame {
     static JSONObject obj;
     static Object test;
     static JSONArray questions;

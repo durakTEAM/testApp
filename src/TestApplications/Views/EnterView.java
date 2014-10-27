@@ -3,52 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package TestApplications;
+package TestApplications.Views;
 
-import TestApplications.Workers.SendAttachmentInEmailWorker;
-import TestApplications.Workers.CSVWorker;
-import TestApplications.Views.Test3View;
-import TestApplications.Views.Test4View;
-import TestApplications.Workers.FileWorker;
-import TestApplications.Workers.JSONWorker;
+import TestApplications.Controllers.EnterController;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author aleksejtitorenko
  */
-public class enterFrame extends javax.swing.JFrame {
-    private final String to = "a.a.titorenko@gmail.com";
-    private final String from = "samsonov68rus@gmail.com";
-    private final String password = "cfvcjyjdfhn`v";
-    private String filename;
-    
-    JSONObject usr;
-    JSONArray questionsArray;
+public class EnterView extends javax.swing.JFrame {
+    EnterController controller;
     /**
      * Creates new form enterFrame
      * @throws java.io.FileNotFoundException
      */
-    public enterFrame(JSONObject usr) throws FileNotFoundException, Exception {
-        this.usr = usr;
-        questionsArray = JSONWorker.open("tests/test1.json");
-        this.filename = "user"+usr.get("ID")+"res.csv";
+    public EnterView(JSONObject usr) throws FileNotFoundException, Exception {
         initComponents();
-        this.FIOLabel.setText(usr.get("name").toString() +" "
-                + usr.get("lastName").toString()+" "
-                + usr.get("firstName").toString());
-        for (int i = 0; i < questionsArray.size(); i++) {
-            JSONObject tmp = (JSONObject) questionsArray.get(i);
-            this.testsComboBox.addItem(tmp.get("name"));
-        }
+        this.controller = new EnterController(this, usr);
     }
 
-    private enterFrame() {
+    private EnterView() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -138,40 +116,7 @@ public class enterFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestButtonActionPerformed
-        try {
-            int i = this.testsComboBox.getSelectedIndex();
-            int j = (int) JSONWorker.get(questionsArray, i).get("type");
-            if (j==1){
-                try {
-                    new frameTest1((JSONObject) questionsArray.get(i), usr).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j==2){
-                try {
-                    new frameTest2((JSONObject) questionsArray.get(i), usr).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j == 3) {
-                try {
-                    new Test3View((JSONObject) questionsArray.get(i), usr).setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j == 4) {
-                try {
-                    new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.controller.startTest();
     }//GEN-LAST:event_startTestButtonActionPerformed
 
     private void startTestButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startTestButtonMousePressed
@@ -179,55 +124,30 @@ public class enterFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_startTestButtonMousePressed
     
     private void testsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_testsComboBoxItemStateChanged
-        updateTestBtn();
+        try {
+            if (this.controller != null) this.controller.updateTestBtn();
+        } catch (Exception ex) {
+            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_testsComboBoxItemStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
     }//GEN-LAST:event_formWindowOpened
-    private void updateSendButton() {
-        JSONArray sendedResults = (JSONArray) usr.get("sendedResults");
-        JSONArray complitedTests = (JSONArray) usr.get("testsArray");
-        if (sendedResults.equals(complitedTests)) {
-            buttonResults.setEnabled(false);
-            buttonResults.setText("<html>Вы не прошли новых <p>тестов</html>");
-        } else {
-            buttonResults.setEnabled(true);
-            buttonResults.setText("<html>Отправить результаты</html>");
-        }
-    }
-    private void updateTestBtn() {
-        JSONArray i = (JSONArray) usr.get("testsArray");
-        int j = (int) i.get(this.testsComboBox.getSelectedIndex());
-        if (j == 1) {
-            this.startTestButton.setEnabled(false);
-            this.startTestButton.setText("Вы уже прошли этот тест");
-            
-        } else {
-            this.startTestButton.setEnabled(true);
-            this.startTestButton.setText("Пройти тест");
-        }
-    }
+
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        updateTestBtn();
-        updateSendButton();
+        try {
+            if (this.controller != null) {
+                this.controller.updateTestBtn();
+                this.controller.updateSendButton();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_formWindowActivated
 
     private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
-        try {
-            CSVWorker.makeCSVTemplate((int) usr.get("ID"));
-            FileWorker.write("users/users.json", usr);
-            updateSendButton();
-            SendAttachmentInEmailWorker.send(this.to, this.from, this.password, this.filename);
-            JSONArray complitedTests = (JSONArray) usr.get("testsArray");
-            usr.put("sendedResults", complitedTests);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(enterFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.controller.sendResults();
     }//GEN-LAST:event_buttonResultsActionPerformed
 
     /**
@@ -247,28 +167,29 @@ public class enterFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(enterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(enterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(enterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(enterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EnterView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new enterFrame().setVisible(true);
+                new EnterView().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel FIOLabel;
-    private javax.swing.JButton buttonResults;
-    private javax.swing.JButton startTestButton;
-    private javax.swing.JComboBox testsComboBox;
+    public javax.swing.JLabel FIOLabel;
+    public javax.swing.JButton buttonResults;
+    public javax.swing.JButton startTestButton;
+    public javax.swing.JComboBox testsComboBox;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,7 +18,7 @@ import org.json.simple.parser.JSONParser;
  * @author aleksejtitorenko
  */
 
-class frameTest2 extends javax.swing.JFrame {
+public class frameTest2 extends javax.swing.JFrame {
     JSONParser parser = new JSONParser();
     JSONObject obj;
     JSONObject usr;

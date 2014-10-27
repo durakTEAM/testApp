@@ -8,7 +8,7 @@ package TestApplications.Controllers;
 import TestApplications.Views.SingUpView;
 import TestApplications.Views.AuthView;
 import TestApplications.Workers.JSONWorker;
-import TestApplications.enterFrame;
+import TestApplications.Views.EnterView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -39,7 +39,7 @@ public class AuthController {
     public void enter() {
         this.view.setVisible(false);
         try {
-            new enterFrame(JSONWorker.get(usersArray, this.view.chooseUserComboBox.getSelectedIndex())).setVisible(true);
+            new EnterView(JSONWorker.get(usersArray, this.view.chooseUserComboBox.getSelectedIndex())).setVisible(true);
         } catch (Exception ex) {
             Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
         }
