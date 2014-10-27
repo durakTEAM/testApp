@@ -28,7 +28,7 @@ public class Test3Controller extends TestController{
     private final Test3View view;
     
     public Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
-        super(view, usr, t);
+        super(usr, t);
         this.view = view;
         CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
         test = reader.readAll();

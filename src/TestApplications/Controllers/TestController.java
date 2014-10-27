@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package TestApplications.Controllers;
 
 import TestApplications.Workers.FileWorker;
@@ -18,10 +19,11 @@ public abstract class TestController {
     protected JFrame view;
     protected Long n;
     protected JSONObject usr;
+    protected JSONObject test;
     
-    public TestController(JFrame view, JSONObject usr, JSONObject test) {
-        this.view = view;
+    public TestController(JSONObject usr, JSONObject test) {
         this.usr = usr;
+        this.test = test;
         n = (Long) test.get("number");
     }
     

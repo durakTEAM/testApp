@@ -24,7 +24,7 @@ public class Test4Controller extends TestController {
     private int step = 0;
     
     public Test4Controller(Test4View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
-        super(view, usr, test);
+        super(usr, test);
         this.view = view;
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNext())
