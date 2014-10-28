@@ -130,7 +130,7 @@ public class EnterController {
                 new Test6View((JSONObject) testsArray.get(i), usr).setVisible(true);
             }
             if (j == 7) {
-                new Test7View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                new Test7View((JSONObject) testsArray.get(i), usr).setVisible(true);
             }
         } catch (Exception ex) {
             Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);

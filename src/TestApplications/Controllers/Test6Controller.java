@@ -13,8 +13,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.TreeSet;
-import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 
@@ -32,7 +30,7 @@ public class Test6Controller extends TestController {
     int[] results = new int[8];
     String strOfResults = new String();
     public Test6Controller(Test6View view, JSONObject test, JSONObject usr) throws FileNotFoundException {
-        super(view, usr, test);
+        super(usr, test);
         this.view = view;
         for (int i = 0; i < 28; i++) {
             int[] tmp = new int[2];
