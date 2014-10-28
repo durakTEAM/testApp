@@ -65,8 +65,8 @@ public class Test3Controller extends TestController{
         }
     }
     private DefaultTableModel makeModel(){
-        String[] a = test.get(0);
-        int r = test.size();
+        final String[] a = test.get(0);
+        final int r = test.size();
         DefaultTableModel model = new DefaultTableModel() {
             @Override 
             public int getColumnCount() { 

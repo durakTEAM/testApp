@@ -9,6 +9,7 @@ import TestApplications.Views.EnterView;
 import TestApplications.Views.Test3View;
 import TestApplications.Views.Test4View;
 import TestApplications.Views.Test5View;
+import TestApplications.Views.Test6View;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
@@ -30,7 +31,7 @@ public class EnterController {
     private final EnterView view;
     
     private JSONObject usr;
-    private JSONArray questionsArray;
+    private JSONArray testsArray;
     
     private final String to = "a.a.titorenko@gmail.com";
     private final String from = "samsonov68rus@gmail.com";
@@ -40,13 +41,13 @@ public class EnterController {
     public EnterController(EnterView view, JSONObject usr) throws Exception {
         this.view = view;
         this.usr = usr;
-        this.questionsArray = JSONWorker.open("tests/test1.json");
+        this.testsArray = JSONWorker.open("tests/test1.json");
         this.filename = "user"+usr.get("ID")+"res.csv";
         this.view.FIOLabel.setText(usr.get("lastName").toString() + " "
                 +usr.get("name").toString() +" "
                 + usr.get("firstName").toString());
-        for (int i = 0; i < this.questionsArray.size(); i++) {
-            this.view.testsComboBox.addItem(JSONWorker.get(questionsArray, i).get("name"));
+        for (int i = 0; i < this.testsArray.size(); i++) {
+            this.view.testsComboBox.addItem(JSONWorker.get(testsArray, i).get("name"));
         }
     }
     
@@ -92,37 +93,40 @@ public class EnterController {
     public void startTest() {
         try {
             int i = this.view.testsComboBox.getSelectedIndex();
-            int j = (int) ((JSONObject)this.questionsArray.get(i)).get("type");
+            int j = (int) ((JSONObject)this.testsArray.get(i)).get("type");
             if (j==1){
                 try {
-                    new frameTest1((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                    new frameTest1((JSONObject) testsArray.get(i), usr).setVisible(true);
                 } catch (Exception ex) {
                     Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (j==2){
                 try {
-                    new frameTest2((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                    new frameTest2((JSONObject) testsArray.get(i), usr).setVisible(true);
                 } catch (Exception ex) {
                     Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (j == 3) {
                 try {
-                    new Test3View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                    new Test3View((JSONObject) testsArray.get(i), usr).setVisible(true);
                 } catch (IOException ex) {
                     Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (j == 4) {
                 try {
-                    new Test4View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                    new Test4View((JSONObject) testsArray.get(i), usr).setVisible(true);
                 } catch (IOException ex) {
                     Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (j == 5) {
-                new Test5View((JSONObject) questionsArray.get(i), usr).setVisible(true);
+                new Test5View((JSONObject) testsArray.get(i), usr).setVisible(true);
+            }
+            if (j == 6){
+                new Test6View((JSONObject) testsArray.get(i), usr).setVisible(true);
             }
         } catch (Exception ex) {
             Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);

@@ -20,6 +20,7 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 public class frameTest1 extends javax.swing.JFrame {
+
     static JSONObject obj;
     static Object test;
     static JSONArray questions;
@@ -27,7 +28,7 @@ public class frameTest1 extends javax.swing.JFrame {
     static ArrayList answersList = new ArrayList();
     static int[] results = new int[12];
     JSONObject usr;
-    
+
     /**
      * Creates new form frameTest1
      */
@@ -38,11 +39,12 @@ public class frameTest1 extends javax.swing.JFrame {
         }
         return temp.toString();
     }
+
     public void finishTest() throws IOException, Exception {
         for (int i = 0; i < 33; i++) {
-            JSONObject temp = (JSONObject)questions.get(i);
+            JSONObject temp = (JSONObject) questions.get(i);
             JSONObject temp2 = (JSONObject) temp.get("a");
-            int [] temp3 = (int []) answersList.get(i);
+            int[] temp3 = (int[]) answersList.get(i);
             int j = toInt(temp2, "fact");
             results[j] += (int) temp3[0];
             temp2 = (JSONObject) temp.get("b");
@@ -54,22 +56,36 @@ public class frameTest1 extends javax.swing.JFrame {
             temp2 = (JSONObject) temp.get("d");
             j = toInt(temp2, "fact");
             results[j] += (int) temp3[3];
-        } 
+        }
+        String strOfResults = new String();
+        strOfResults = "\n1. Материальное вознаграждение;" + results[0] + ";\n"
+                + "2. Комфортные условия;" + results[1] + ";\n"
+                + "3. Ясность целей и критериев;" + results[2] + ";\n"
+                + "4. Социальные контакты;" + results[3] + ";\n"
+                + "5. Стабильные, доверительные отношения;" + results[4] + ";\n"
+                + "6. Признание заслуг и достижений;" + results[5] + ";\n"
+                + "7. Амбициозные цели;" + results[6] + ";\n"
+                + "8. Власть, влияние, конкурентность;" + results[7] + ";\n"
+                + "9. Разнообразие, перемены;" + results[8] + ";\n"
+                + "10. Новые идеи, креативность;" + results[9] + ";\n"
+                + "11. Личностное развитие;" + results[10] + ";\n"
+                + "12. Востребованная, значимая работа;" + results[11] + ";";
         JSONArray res = (JSONArray) usr.get("testsResults");
         JSONArray temp = (JSONArray) usr.get("testsArray");
         int i = ((Long) obj.get("number")).intValue();
-        res.set(i, toStr(results));
+        res.set(i, strOfResults);
         usr.put("testsResults", res);
         temp.set(i, 1);
         usr.put("testsArray", temp);
         FileWorker.write("users/users.json", usr);
+        this.setVisible(false);
     }
-    
+
     private int toInt(JSONObject o, String s) {
-        return ((Long)o.get(s)).intValue() - 1;
+        return ((Long) o.get(s)).intValue() - 1;
     }
-    
-    public void updateLabels(){
+
+    public void updateLabels() {
         if (step == 0) {
             this.buttonPrev.setEnabled(false);
         } else {
@@ -77,7 +93,7 @@ public class frameTest1 extends javax.swing.JFrame {
         }
         if (step == 32) {
             this.buttonNext.setText("Завершить тест");
-            
+
         } else {
             this.buttonNext.setText("Next >");
         }
@@ -91,29 +107,29 @@ public class frameTest1 extends javax.swing.JFrame {
         this.labelAns3.setText((String) y.get("ans"));
         y = (JSONObject) x.get("d");
         this.labelAns4.setText((String) y.get("ans"));
-        int [] temp = (int[]) answersList.get(step);
+        int[] temp = (int[]) answersList.get(step);
         this.text1.setText(Integer.toString(temp[0]));
         this.text2.setText(Integer.toString(temp[1]));
         this.text3.setText(Integer.toString(temp[2]));
         this.text4.setText(Integer.toString(temp[3]));
     }
-    
+
     public frameTest1() {
-    
+
     }
-    
+
     public frameTest1(JSONObject test, JSONObject usr) throws IOException, Exception {
         initComponents();
         this.usr = usr;
-        obj  = test;
+        obj = test;
         questions = (JSONArray) obj.get("questions");
-        for(Object i : questions) {
-            int [] temp = new int[4];
+        for (Object i : questions) {
+            int[] temp = new int[4];
             answersList.add(temp);
         }
         this.updateLabels();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,7 +206,7 @@ public class frameTest1 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelAns1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
                         .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelAns2)
@@ -246,31 +262,31 @@ public class frameTest1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNextActionPerformed
-        int [] temp = new int[4];
+        int[] temp = new int[4];
         temp[0] = (Integer.parseInt(this.text1.getText()));
         temp[1] = (Integer.parseInt(this.text2.getText()));
         temp[2] = (Integer.parseInt(this.text3.getText()));
         temp[3] = (Integer.parseInt(this.text4.getText()));
         int sum = (int) temp[0] + (int) temp[1]
                 + (int) temp[2] + (int) temp[3];
-        if (sum == 11){
+        if (sum == 11) {
             answersList.set(step, temp);
             step++;
-            if(step == 32) {
+            if (step == 32) {
                 try {
                     finishTest();
                 } catch (Exception ex) {
                     Logger.getLogger(frameTest1.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }        
+            }
             this.updateLabels();
         } else {
             JOptionPane.showMessageDialog(null, "<html>Распределите баллы корректно<p>"
-                    + "Необходимо распределить всем 11 баллов по 4 пунктам</html>");
+                    + "Необходимо распределить все 11 баллов по 4 пунктам</html>");
         }    }//GEN-LAST:event_buttonNextActionPerformed
 
     private void buttonNextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonNextMousePressed
-      
+
     }//GEN-LAST:event_buttonNextMousePressed
 
     private void buttonPrevMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonPrevMousePressed
@@ -313,7 +329,7 @@ public class frameTest1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-               // new frameTest1().setVisible(true);
+                // new frameTest1().setVisible(true);
             }
         });
     }
