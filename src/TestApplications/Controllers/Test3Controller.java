@@ -9,23 +9,37 @@ import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
 import TestApplications.Views.Test3View;
 import au.com.bytecode.opencsv.CSVReader;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.TreeSet;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author artemsamsonov
  */
-public class Test3Controller extends TestController{
+public class Test3Controller extends TestController implements KeyListener,
+        ActionListener, WindowListener, TableModelListener{
+    
     public List<String[]> test;
     private TreeSet<String> key = new TreeSet<>();
     private final Test3View view;
+    
+    private TreeSet<Integer> isReady = new TreeSet<>();
     
     public Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
         super(usr, t);
@@ -113,14 +127,11 @@ public class Test3Controller extends TestController{
                     ans[1] = j/2;
                 }
             }
-            if (cnt != 1) {
-                JOptionPane.showMessageDialog(this.view, "Некорректный ответ в строке " + (i+1));
-                return -1;
-            } else {
+            
                 String a = ans[0].toString() + '/' + ans[1].toString();
                 res += this.key.contains(a) ? 1 : 0;
             }
-        }
+        
         return res;
     }
     
@@ -134,4 +145,82 @@ public class Test3Controller extends TestController{
             this.view.setVisible(false);
         }
     }   
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode()==KeyEvent.VK_ENTER && this.isReady.size() == 30) {
+            try {
+                this.finishTest();
+            } catch (Exception ex) {
+                Logger.getLogger(Test3Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Готово")) {
+            try {
+                this.finishTest();
+            } catch (Exception ex) {
+                Logger.getLogger(Test3View.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        this.fillTestTable();
+        this.view.tableTests.getModel().addTableModelListener(this);
+        this.view.btnReady.setEnabled(false);
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        int i = e.getLastRow();
+        int j = e.getColumn();
+        boolean x = !((Boolean)((TableModel)e.getSource()).getValueAt(i, j));
+        if (!x) {
+            for (int l = 2; l <=6; l+=2) {
+                if (l==j) continue;
+                ((TableModel)e.getSource()).setValueAt(x, i, l);
+            }
+        }
+        this.isReady.add(i);
+        if (this.isReady.size() == 30) {
+            this.view.btnReady.setEnabled(true);
+        }
+    }
 }

@@ -21,6 +21,12 @@ public class SingUpView extends javax.swing.JFrame {
     public SingUpView() throws Exception {
         this.controller = new SingUpController(this);
         initComponents();
+        this.applyButton.addActionListener(this.controller);
+        this.textUserType.addKeyListener(this.controller);
+        this.textUserLastname.addInputMethodListener(this.controller);
+        this.textUserName.addInputMethodListener(this.controller);
+        this.textUserSurname.addInputMethodListener(this.controller);
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,46 +40,43 @@ public class SingUpView extends javax.swing.JFrame {
         labelUserLastname = new javax.swing.JLabel();
         labelUserName = new javax.swing.JLabel();
         labelUserSurname = new javax.swing.JLabel();
-        textUserLastname = new javax.swing.JTextField();
-        textUserName = new javax.swing.JTextField();
-        textUserSurname = new javax.swing.JTextField();
         labelUserType = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textUserType = new javax.swing.JTextArea();
         applyButton = new javax.swing.JButton();
+        textUserLastname = new javax.swing.JTextField();
+        textUserName = new javax.swing.JTextField();
+        textUserSurname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Новый пользователь");
         setResizable(false);
 
+        labelUserLastname.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserLastname.setText("Фамилия: ");
         labelUserLastname.setAutoscrolls(true);
 
+        labelUserName.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserName.setText("Имя: ");
         labelUserName.setAutoscrolls(true);
 
+        labelUserSurname.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserSurname.setText("Отчество: ");
         labelUserSurname.setAutoscrolls(true);
 
-        textUserLastname.setColumns(10);
-        textUserLastname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textUserLastnameActionPerformed(evt);
-            }
-        });
-
-        textUserName.setColumns(10);
-
-        textUserSurname.setColumns(10);
-
+        labelUserType.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserType.setText("Должность: ");
         labelUserType.setAutoscrolls(true);
 
         jScrollPane1.setAutoscrolls(true);
 
         textUserType.setColumns(15);
+        textUserType.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         textUserType.setRows(4);
+        textUserType.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jScrollPane1.setViewportView(textUserType);
 
+        applyButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         applyButton.setText("Создать пользователя");
         applyButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -91,31 +94,24 @@ public class SingUpView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                    .addComponent(applyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(labelUserSurname)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textUserSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(labelUserName)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(labelUserLastname)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(textUserLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(labelUserType)))
+                            .addComponent(labelUserLastname)
+                            .addComponent(labelUserSurname)
+                            .addComponent(labelUserName))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textUserLastname)
+                            .addComponent(textUserName)
+                            .addComponent(textUserSurname)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(applyButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(labelUserType)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +120,7 @@ public class SingUpView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelUserLastname)
                     .addComponent(textUserLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelUserName)
                     .addComponent(textUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -132,28 +128,20 @@ public class SingUpView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelUserSurname)
                     .addComponent(textUserSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addComponent(labelUserType)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(applyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textUserLastnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textUserLastnameActionPerformed
-
-    }//GEN-LAST:event_textUserLastnameActionPerformed
-
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-        try {
-            this.controller.apply();
-        } catch (Exception ex) {
-            Logger.getLogger(SingUpView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_applyButtonActionPerformed
     
     private void applyButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyButtonMousePressed

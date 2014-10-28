@@ -19,10 +19,17 @@ public class AuthView extends javax.swing.JFrame {
 
     private AuthController controller;
 
-    
     public AuthView() throws FileNotFoundException, Exception {
         initComponents();
         this.controller = new AuthController(this);
+        this.addWindowListener(this.controller);
+        this.usersList.addListSelectionListener(this.controller);
+        this.usersList.addMouseListener(this.controller);
+        this.menuNewFile.addActionListener(this.controller);
+        this.menuExit.addActionListener(this.controller);
+        this.createUserButton.addActionListener(this.controller);
+        this.enterUserButton.addActionListener(this.controller);
+        this.usersList.addKeyListener(this.controller);
     }
 
     /**
@@ -34,44 +41,17 @@ public class AuthView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollBar1 = new javax.swing.JScrollBar();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        popupMenu1 = new java.awt.PopupMenu();
-        popupMenu2 = new java.awt.PopupMenu();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
-        jMenu2 = new javax.swing.JMenu();
-        chooseUserComboBox = new javax.swing.JComboBox();
         createUserButton = new javax.swing.JButton();
         enterUserButton = new javax.swing.JButton();
-        label1 = new javax.swing.JLabel();
-        buttonExit = new javax.swing.JButton();
-
-        jMenuItem1.setText("jMenuItem1");
-
-        jMenu1.setText("jMenu1");
-
-        popupMenu1.setLabel("popupMenu1");
-
-        popupMenu2.setLabel("popupMenu2");
-
-        jInternalFrame1.setVisible(true);
-
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jMenu2.setText("jMenu2");
+        jScrollPane1 = new javax.swing.JScrollPane();
+        usersList = new javax.swing.JList();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        menuNewFile = new javax.swing.JMenuItem();
+        menuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Тесты");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -82,17 +62,7 @@ public class AuthView extends javax.swing.JFrame {
             }
         });
 
-        chooseUserComboBox.setMaximumRowCount(5);
-        chooseUserComboBox.setMaximumSize(new java.awt.Dimension(20, 8));
-        chooseUserComboBox.setMinimumSize(new java.awt.Dimension(20, 8));
-        chooseUserComboBox.setSize(new java.awt.Dimension(8, 0));
-        chooseUserComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseUserComboBoxActionPerformed(evt);
-            }
-        });
-
-        createUserButton.setText("Создать");
+        createUserButton.setText("Новый пользователь");
         createUserButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 createUserButtonMouseClicked(evt);
@@ -111,14 +81,33 @@ public class AuthView extends javax.swing.JFrame {
             }
         });
 
-        label1.setText("Выберите пользователя");
+        usersList.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.UIManager.getDefaults().getColor("List.foreground"), null));
+        usersList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        usersList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        usersList.setToolTipText("Выберите пользователя");
+        usersList.setSelectionBackground(java.awt.SystemColor.textHighlight);
+        jScrollPane1.setViewportView(usersList);
 
-        buttonExit.setText("Завершить программу");
-        buttonExit.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+
+        jMenu1.setText("Файл");
+
+        menuNewFile.setText("Новый пользователь");
+        menuNewFile.setToolTipText("Создать нового пользователя");
+        menuNewFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonExitActionPerformed(evt);
+                menuNewFileActionPerformed(evt);
             }
         });
+        jMenu1.add(menuNewFile);
+
+        menuExit.setText("Выход");
+        menuExit.setToolTipText("Выйти из программы");
+        jMenu1.add(menuExit);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,61 +116,39 @@ public class AuthView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(chooseUserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(enterUserButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(createUserButton))
-                    .addComponent(label1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(enterUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(buttonExit)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(label1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chooseUserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(enterUserButton)
-                    .addComponent(createUserButton))
-                .addGap(18, 18, 18)
-                .addComponent(buttonExit)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(enterUserButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createUserButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chooseUserComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseUserComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chooseUserComboBoxActionPerformed
-
     private void enterUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterUserButtonActionPerformed
-        this.controller.enter();
+   
     }//GEN-LAST:event_enterUserButtonActionPerformed
 
     private void createUserButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createUserButtonMouseClicked
-        try {
-            this.controller.create();
-        } catch (Exception ex) {
-            Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }//GEN-LAST:event_createUserButtonMouseClicked
 
     private void enterUserButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enterUserButtonMousePressed
         
         
     }//GEN-LAST:event_enterUserButtonMousePressed
-
-    private void buttonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExitActionPerformed
-        // TODO запилить выход
-    }//GEN-LAST:event_buttonExitActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         
@@ -190,6 +157,10 @@ public class AuthView extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
     }//GEN-LAST:event_formWindowOpened
+
+    private void menuNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNewFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuNewFileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,18 +205,13 @@ public class AuthView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonExit;
-    public javax.swing.JComboBox chooseUserComboBox;
     private javax.swing.JButton createUserButton;
     public javax.swing.JButton enterUserButton;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JLabel label1;
-    private java.awt.PopupMenu popupMenu1;
-    private java.awt.PopupMenu popupMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenuItem menuNewFile;
+    public javax.swing.JList usersList;
     // End of variables declaration//GEN-END:variables
 }

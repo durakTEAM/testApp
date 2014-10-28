@@ -7,8 +7,6 @@ package TestApplications.Views;
 
 import TestApplications.Controllers.Test3Controller;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 
 /**
@@ -23,6 +21,10 @@ public class Test3View extends javax.swing.JFrame {
     public Test3View(JSONObject test, JSONObject usr) throws IOException {
         this.controller = new Test3Controller(this, test, usr);
         initComponents();
+        this.btnReady.addActionListener(this.controller);
+        this.tableTests.addKeyListener(this.controller);
+        
+        this.addWindowListener(this.controller);
     }
 
     private Test3View() {
@@ -52,6 +54,8 @@ public class Test3View extends javax.swing.JFrame {
             }
         });
 
+        tableTests.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.SystemColor.controlShadow, null));
+        tableTests.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         tableTests.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -71,7 +75,10 @@ public class Test3View extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableTests.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tableTests.setSelectionBackground(java.awt.SystemColor.textHighlight);
+        tableTests.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tableTests.setShowGrid(true);
+        tableTests.setSurrendersFocusOnKeystroke(true);
         tableTests.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableTests);
         if (tableTests.getColumnModel().getColumnCount() > 0) {
@@ -84,6 +91,7 @@ public class Test3View extends javax.swing.JFrame {
 
         label.setText("Выберите по одному элементу из каждой строки");
 
+        btnReady.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         btnReady.setText("Готово");
         btnReady.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,8 +120,8 @@ public class Test3View extends javax.swing.JFrame {
                 .addComponent(label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnReady, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReady, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -121,15 +129,11 @@ public class Test3View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        controller.fillTestTable();
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void btnReadyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadyActionPerformed
-        try {
-            controller.finishTest();
-        } catch (Exception ex) {
-            Logger.getLogger(Test3View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_btnReadyActionPerformed
 
     /**
@@ -168,7 +172,7 @@ public class Test3View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnReady;
+    public javax.swing.JButton btnReady;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label;
