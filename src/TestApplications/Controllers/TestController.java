@@ -34,5 +34,4 @@ public abstract class TestController {
     }
     
     abstract int getTestCnt();
-    
 }
