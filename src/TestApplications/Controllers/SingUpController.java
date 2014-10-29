@@ -28,6 +28,7 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 public class SingUpController implements KeyListener, ActionListener, InputMethodListener {
+    
     private final SingUpView view;
     final private int countOfTests;
     
@@ -66,33 +67,20 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
         String name = this.view.textUserName.getText();
         String lastname = this.view.textUserLastname.getText();
         String midname = this.view.textUserSurname.getText();
-        String type = this.view.textUserType.getText();
-        
+        boolean a = true;
         if (lastname.isEmpty()) {
             this.view.textUserLastname.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserLastname.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
         if (name.isEmpty()) {
             this.view.textUserName.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserName.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
         if (midname.isEmpty()) {
             this.view.textUserSurname.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserSurname.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
-        if (type.isEmpty()) {
-            this.view.textUserType.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserType.setBorder(BorderFactory.createLineBorder(Color.gray));
-        }
-        return true;
+        return a;
     }
 
     @Override
@@ -108,13 +96,11 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          
-                try {
-                    this.apply();
-                } catch (Exception ex) {
-                    Logger.getLogger(SingUpController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
+            try {
+                this.apply();
+            } catch (Exception ex) {
+                Logger.getLogger(SingUpController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -129,15 +115,11 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
 
     @Override
     public void inputMethodTextChanged(InputMethodEvent event) {
-        if (Character.isDigit(event.getText().current()) ||
-                Character.isWhitespace(event.getText().current())) {
-            event.consume();
-        } else {
-        }
+        ((JTextField)event.getSource()).setBorder(BorderFactory.createLineBorder(Color.gray));
     }
 
     @Override
     public void caretPositionChanged(InputMethodEvent event) {
-        
     }
+    
 }

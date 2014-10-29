@@ -37,6 +37,7 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     private final JSONArray usersArray;
     
     private int index = -1;
+    private boolean isIndexRight = false;
     
     public AuthController (AuthView view) throws Exception {
         this.view = view;
@@ -91,11 +92,7 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
 
     @Override
     public void windowActivated(WindowEvent e) {
-        if (this.usersArray.isEmpty()) {
-            this.view.enterUserButton.setEnabled(false);
-        } else {
-            this.view.enterUserButton.setEnabled(true);
-        }
+        this.updateEnterBtn();
     }
 
     @Override
@@ -106,6 +103,8 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     @Override
     public void valueChanged(ListSelectionEvent e) {
         this.index = ((JList)e.getSource()).getSelectedIndex();
+        this.isIndexRight = (this.index > -1 && this.index < this.usersArray.size());
+        this.updateEnterBtn();
     }
 
     @Override
@@ -118,9 +117,7 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
             }
         }
         if (e.getActionCommand().equals("Войти")) {
-            if (this.isIndexRight()) {
                 this.enter();
-            }
         }
         if (e.getActionCommand().equals("Выход")) {
             this.view.setVisible(false);
@@ -140,22 +137,14 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER && this.isIndexRight()) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && this.isIndexRight) {
             this.enter();
-        }
-    }
-    
-    private boolean isIndexRight() {
-        if (this.index >= 0 && this.index < this.usersArray.size()) {
-            return true;
-        } else {
-            return false;
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {
+        if (e.getClickCount() == 2 && this.isIndexRight) {
             this.enter();
         }
     }
@@ -178,5 +167,13 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private void updateEnterBtn() {
+        if (this.usersArray.isEmpty() || !this.isIndexRight) {
+            this.view.enterUserButton.setEnabled(false);
+        } else {
+            this.view.enterUserButton.setEnabled(true);
+        }
     }
 }

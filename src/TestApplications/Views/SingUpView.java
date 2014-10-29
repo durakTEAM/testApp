@@ -5,28 +5,49 @@
  */
 package TestApplications.Views;
 
+import TestApplications.CharsField;
 import TestApplications.Controllers.SingUpController;
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 
 /**
  *
  * @author artemsamsonov
  */
 public class SingUpView extends javax.swing.JFrame {
+    
     private SingUpController controller;
+    
+    public CharsField textUserLastname = new CharsField(25);
+    public CharsField textUserName = new CharsField(20);
+    public CharsField textUserSurname = new CharsField(20);
+    
     /**
      * Creates new form mainFrame
+     * @throws java.lang.Exception
      */
     public SingUpView() throws Exception {
         this.controller = new SingUpController(this);
+        
         initComponents();
-        this.applyButton.addActionListener(this.controller);
-        this.textUserType.addKeyListener(this.controller);
+        
+        textUserLastname.setBorder(BorderFactory.createLineBorder(Color.gray));
+        textUserName.setBorder(BorderFactory.createLineBorder(Color.gray));
+        textUserSurname.setBorder(BorderFactory.createLineBorder(Color.gray));
+        
+        getContentPane().add(textUserLastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 10, 168, -1));
+        getContentPane().add(textUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 44, 168, -1));
+        getContentPane().add(textUserSurname, new org.netbeans.lib.awtextra.AbsoluteConstraints(109, 78, 168, -1));
+        pack();
+        
         this.textUserLastname.addInputMethodListener(this.controller);
         this.textUserName.addInputMethodListener(this.controller);
         this.textUserSurname.addInputMethodListener(this.controller);
         
+        this.applyButton.addActionListener(this.controller);
+        this.textUserType.addKeyListener(this.controller);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,29 +65,31 @@ public class SingUpView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         textUserType = new javax.swing.JTextArea();
         applyButton = new javax.swing.JButton();
-        textUserLastname = new javax.swing.JTextField();
-        textUserName = new javax.swing.JTextField();
-        textUserSurname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Новый пользователь");
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelUserLastname.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserLastname.setText("Фамилия: ");
         labelUserLastname.setAutoscrolls(true);
+        getContentPane().add(labelUserLastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 11, -1, -1));
 
         labelUserName.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserName.setText("Имя: ");
         labelUserName.setAutoscrolls(true);
+        getContentPane().add(labelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 45, -1, -1));
 
         labelUserSurname.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserSurname.setText("Отчество: ");
         labelUserSurname.setAutoscrolls(true);
+        getContentPane().add(labelUserSurname, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 79, -1, -1));
 
         labelUserType.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelUserType.setText("Должность: ");
         labelUserType.setAutoscrolls(true);
+        getContentPane().add(labelUserType, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 107, -1, -1));
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -75,6 +98,8 @@ public class SingUpView extends javax.swing.JFrame {
         textUserType.setRows(4);
         textUserType.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jScrollPane1.setViewportView(textUserType);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 130, 271, -1));
 
         applyButton.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         applyButton.setText("Создать пользователя");
@@ -88,54 +113,7 @@ public class SingUpView extends javax.swing.JFrame {
                 applyButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                    .addComponent(applyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelUserLastname)
-                            .addComponent(labelUserSurname)
-                            .addComponent(labelUserName))
-                        .addGap(32, 32, 32)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textUserLastname)
-                            .addComponent(textUserName)
-                            .addComponent(textUserSurname)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelUserType)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelUserLastname)
-                    .addComponent(textUserLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelUserName)
-                    .addComponent(textUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelUserSurname)
-                    .addComponent(textUserSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addComponent(labelUserType)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(applyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(applyButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 210, 271, 41));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -195,9 +173,6 @@ public class SingUpView extends javax.swing.JFrame {
     private javax.swing.JLabel labelUserName;
     private javax.swing.JLabel labelUserSurname;
     private javax.swing.JLabel labelUserType;
-    public javax.swing.JTextField textUserLastname;
-    public javax.swing.JTextField textUserName;
-    public javax.swing.JTextField textUserSurname;
     public javax.swing.JTextArea textUserType;
     // End of variables declaration//GEN-END:variables
 }
