@@ -36,7 +36,7 @@ public class CSVWorker {
                 } else {
                     str = "Не пройден";
                 }
-                entries[i+3] = ((JSONObject)arr.get(i)).get("name") + ";" + str + '\n';
+                entries[i+3] = ((JSONObject)arr.get(i)).get("name") +"\n" + str + '\n';
             }
             writer.writeNext(entries);
         }

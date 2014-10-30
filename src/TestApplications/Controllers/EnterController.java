@@ -11,6 +11,7 @@ import TestApplications.Views.Test4View;
 import TestApplications.Views.Test5View;
 import TestApplications.Views.Test6View;
 import TestApplications.Views.Test7View;
+import TestApplications.Views.Test8View;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
@@ -131,6 +132,9 @@ public class EnterController {
             }
             if (j == 7) {
                 new Test7View((JSONObject) testsArray.get(i), usr).setVisible(true);
+            }
+            if (j == 8){
+                new Test8Controller((JSONObject) testsArray.get(i), usr);
             }
         } catch (Exception ex) {
             Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
