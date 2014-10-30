@@ -8,19 +8,27 @@ package TestApplications.Controllers;
 import TestApplications.Views.Test5View;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author artemsamsonov
  */
-public class Test5Controller extends TestController{
+public class Test5Controller 
+    extends TestController
+    implements ActionListener {
+    
     private final Test5View view;
     
     private LinkedList<String> questions = new LinkedList<>();
@@ -30,9 +38,11 @@ public class Test5Controller extends TestController{
     
     private int step = 0;
     
-    public Test5Controller(Test5View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test5Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
-        this.view = view;
+        this.view = new Test5View();
+        this.setListeners();
+        
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
@@ -98,7 +108,31 @@ public class Test5Controller extends TestController{
         this.getTestCnt();
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults", this.result.toString(), n.byteValue());
-        FileWorker.write("users/users.json", usr);
+        try {
+            FileWorker.write("users/users.json", usr);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(view, "<html>Не удалось обновить users.json<p>"
+                    + ex.getMessage() + "<p>Попробуйте отправить результаты</html>");
+        }
         this.view.setVisible(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("A")) try {
+            this.a();
+        } catch (Exception ex) {
+            Logger.getLogger(Test5Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(e.getActionCommand().equals("B")) try {
+            this.b();
+        } catch (Exception ex) {
+            Logger.getLogger(Test5Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setListeners() {
+        this.view.btnA.addActionListener(this);
+        this.view.btnB.addActionListener(this);
     }
 }

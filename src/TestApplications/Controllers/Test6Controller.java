@@ -8,11 +8,15 @@ package TestApplications.Controllers;
 import TestApplications.Views.Test6View;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
 
@@ -20,7 +24,9 @@ import org.json.simple.JSONObject;
  *
  * @author aleksejtitorenko
  */
-public class Test6Controller extends TestController {
+public class Test6Controller 
+    extends TestController 
+    implements ActionListener {
 
     private final Test6View view;
     private LinkedList<String[]> questions = new LinkedList<>();
@@ -29,9 +35,10 @@ public class Test6Controller extends TestController {
     ArrayList<Integer[]> keys = new ArrayList<>();
     int[] results = new int[8];
     String strOfResults = new String();
-    public Test6Controller(Test6View view, JSONObject test, JSONObject usr) throws FileNotFoundException {
+    public Test6Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
-        this.view = view;
+        this.view = new Test6View();
+        this.view.setVisible(true);
         for (int i = 0; i < 28; i++) {
             int[] tmp = new int[2];
             answers.add(tmp);
@@ -136,6 +143,16 @@ public class Test6Controller extends TestController {
         JSONWorker.updateUsr(usr, "testsResults", this.strOfResults, n.byteValue());
         FileWorker.write("users/users.json", usr);
         this.view.setVisible(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Next")) try {
+            this.next();
+        } catch (Exception ex) {
+            Logger.getLogger(Test6Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (e.getActionCommand().equals("Prev")) this.prev();
     }
 
 }

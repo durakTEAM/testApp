@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.json.simple.JSONArray;
@@ -34,35 +35,48 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
         KeyListener, MouseListener {
     
     private final AuthView view;
-    private final JSONArray usersArray;
+    private JSONArray usersArray;
     
     private int index = -1;
     private boolean isIndexRight = false;
     
     public AuthController (AuthView view) throws Exception {
         this.view = view;
-        this.usersArray = JSONWorker.open("users/users.json");
-
+        this.updateList();
+    }
+    
+    private void updateList() throws Exception{
         DefaultListModel listmodel = new DefaultListModel();
-        for (Object i : this.usersArray) {
-            listmodel.addElement(((JSONObject)i).get("lastName") 
-                    + "\t" + ((JSONObject)i).get("name") + "\t"+((JSONObject)i).get("firstName"));
+        try {
+            this.usersArray = JSONWorker.open("users/users.json");
+            for (Object i : this.usersArray) {
+                String temp = String.valueOf(((JSONObject)i).get("ID")) + ")\t" + ((JSONObject)i).get("lastName") + "\t" + ((JSONObject)i).get("name") + "\t" + ((JSONObject)i).get("firstName");
+                listmodel.addElement(temp);
+            }
+            this.view.usersList.setModel(listmodel);
+            this.view.usersList.setSelectedIndex(-1);
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(view, ex.getMessage() + "\n Перезапустите программу");
+            
         }
-        this.view.usersList.setModel(listmodel);
-        this.view.usersList.setSelectedIndex(-1);
-        
     }
     public void enter() {
         try {
             new EnterView(JSONWorker.get(usersArray, this.index)).setVisible(true);
-            this.view.setVisible(false);
         } catch (Exception ex) {
-            Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void create() throws Exception {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        } 
         this.view.setVisible(false);
-        new SingUpView().setVisible(true);
+        this.view.dispose();
+    }
+    public void create() {
+        try {
+            new SingUpView().setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+            this.view.setVisible(false);
+            this.view.dispose();
+        }
     }
 
     @Override
@@ -92,7 +106,12 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
 
     @Override
     public void windowActivated(WindowEvent e) {
-        this.updateEnterBtn();
+        try {
+            this.updateList();
+            this.updateEnterBtn();
+        } catch (Exception ex) {
+            Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -110,11 +129,7 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Новый пользователь")) {
-            try {
-                this.create();
-            } catch (Exception ex) {
-                Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.create();
         }
         if (e.getActionCommand().equals("Войти")) {
                 this.enter();

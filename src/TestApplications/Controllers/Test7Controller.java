@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import org.json.simple.JSONObject;
@@ -23,7 +25,10 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 
-public class Test7Controller extends TestController {
+public class Test7Controller 
+    extends TestController 
+    implements ActionListener{
+    
     private final Test7View view;
     
     private ArrayList<String> questions = new ArrayList<>();
@@ -35,6 +40,16 @@ public class Test7Controller extends TestController {
     public Listener2 l2;
     
     private static int step = 0;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Next >")) try {
+            this.next();
+        } catch (Exception ex) {
+            Logger.getLogger(Test7Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(e.getActionCommand().equals("< Prev")) this.prev();
+    }
     
     class Listener1 implements ActionListener{
         String str = "";
@@ -66,12 +81,13 @@ public class Test7Controller extends TestController {
         }
     }
     
-    public Test7Controller(Test7View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test7Controller(JSONObject usr, JSONObject test) throws FileNotFoundException {
         super(usr, test);
         this.l2 = new Listener2();
         this.l1 = new Listener1();
-        this.view = view;
-        
+        this.view = new Test7View();
+        this.view.setVisible(true);
+        this.setListeners();
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNextLine()) {
                 StringBuilder str = new StringBuilder();
@@ -86,6 +102,15 @@ public class Test7Controller extends TestController {
         }
         
         this.updateFrame();
+    }
+    
+    private void setListeners() {
+        this.view.rb11.addActionListener(this.l1);
+        this.view.rb12.addActionListener(this.l1);
+        this.view.rb13.addActionListener(this.l1);
+        this.view.rb21.addActionListener(this.l2);
+        this.view.rb22.addActionListener(this.l2);
+        this.view.rb23.addActionListener(this.l2);
     }
     
     @Override

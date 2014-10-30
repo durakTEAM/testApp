@@ -8,6 +8,7 @@ package TestApplications.Workers;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -34,6 +35,18 @@ public class FileWorker {
             FileWriter fileW = new FileWriter((String) file);
             fileW.append(x.toString());
             fileW.flush();
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException(":Файл " + file + " не существует");
+        }
+    }
+    static public void createFile(CharSequence path, String content) throws IOException {
+        FileWriter fw;
+        try {
+            fw = new FileWriter((String) path);
+            fw.append(content);
+            fw.flush();
+        } catch (IOException ex) {
+            throw new IOException();
         }
     }
 }

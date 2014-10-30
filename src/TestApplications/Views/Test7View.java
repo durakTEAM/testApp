@@ -5,36 +5,16 @@
  */
 package TestApplications.Views;
 
-import TestApplications.Controllers.Test7Controller;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONObject;
-
 /**
  *
  * @author artemsamsonov
  */
 public class Test7View extends javax.swing.JFrame {
-    private final Test7Controller controller;
     /**
      * Creates new form Test7View
      */
-    public Test7View(JSONObject test, JSONObject usr) throws FileNotFoundException {
+    public Test7View() {
         initComponents();
-        this.controller = new Test7Controller(this, usr, test);
-        
-        this.rb11.addActionListener(this.controller.l1);
-        this.rb12.addActionListener(this.controller.l1);
-        this.rb13.addActionListener(this.controller.l1);
-        this.rb21.addActionListener(this.controller.l2);
-        this.rb22.addActionListener(this.controller.l2);
-        this.rb23.addActionListener(this.controller.l2);
-        
-    }
-
-    private Test7View() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -58,7 +38,7 @@ public class Test7View extends javax.swing.JFrame {
         rb22 = new javax.swing.JCheckBox();
         rb23 = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         labelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelQuestion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -169,15 +149,11 @@ public class Test7View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        try {
-            this.controller.next();
-        } catch (Exception ex) {
-            Logger.getLogger(Test7View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        this.controller.prev();
+ 
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void rb21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb21ActionPerformed

@@ -8,7 +8,6 @@ package TestApplications.Controllers;
 
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
-import javax.swing.JFrame;
 import org.json.simple.JSONObject;
 
 /**
@@ -16,23 +15,20 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 public abstract class TestController {
-    protected JFrame view;
     protected Long n;
     protected JSONObject usr;
     protected JSONObject test;
     
     public TestController(JSONObject usr, JSONObject test) {
         this.usr = usr;
-        this.test = test;
         n = (Long) test.get("number");
     }
     
-    public void finishTest() throws Exception {
+    protected void finishTest() throws Exception {
         int res = getTestCnt();
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults", res, n.byteValue());
         FileWorker.write("users/users.json", usr);
-        this.view.setVisible(false);
     }
     
     abstract int getTestCnt();

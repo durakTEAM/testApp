@@ -6,10 +6,16 @@
 package TestApplications.Controllers;
 
 import TestApplications.Views.Test4View;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,19 +23,33 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-public class Test4Controller extends TestController {
+public class Test4Controller 
+    extends TestController
+    implements ActionListener, WindowListener {
+    
     private Test4View view;
-    public LinkedList<String> questions = new LinkedList<>();
+    public ArrayList<String> questions = new ArrayList<>();
     private int[] ans = new int[25];
     private int step = 0;
     
-    public Test4Controller(Test4View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test4Controller(JSONObject usr, JSONObject test) throws FileNotFoundException {
         super(usr, test);
-        this.view = view;
+        
+        this.view = new Test4View();
+        this.view.setVisible(true);
+        
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
         }
+        
+        this.setListeners();
+    }
+    
+    private void setListeners() {
+        this.view.btnNext.addActionListener(this);
+        this.view.btnPrev.addActionListener(this);
+        this.view.addWindowListener(this);
     }
     
     public void update() {
@@ -44,7 +64,8 @@ public class Test4Controller extends TestController {
             this.view.btnNext.setText("Next >");
         }
         this.view.slider.setValue(ans[step]);
-        this.view.labelQuestins.setText(step+1 + ") " + this.questions.get(step));
+        this.view.labelQuestins.setText("<html><div align='center'>" + String.valueOf(step+1) + ") " 
+                + this.questions.get(step) + "</div></html>");
     }
     
     public void next() throws Exception {
@@ -75,5 +96,56 @@ public class Test4Controller extends TestController {
             res += i;
         }
         return res;
+    }
+    @Override
+    protected void finishTest() throws Exception {
+        super.finishTest();
+        this.view.setVisible(false);
+        this.view.dispose();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Next >")) try {
+            this.next();
+        } catch (Exception ex) {
+            Logger.getLogger(Test4Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (e.getActionCommand().equals("< Prev")) this.prev();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        this.update();
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

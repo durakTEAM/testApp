@@ -97,7 +97,7 @@ public class EnterView extends javax.swing.JFrame {
         menuTestSend.setText("Отправить результаты");
         menuTest.add(menuTestSend);
 
-        menuTestClose.setText(" Закрыть программу");
+        menuTestClose.setText("Закрыть программу");
         menuTest.add(menuTestClose);
 
         jMenuBar1.add(menuTest);

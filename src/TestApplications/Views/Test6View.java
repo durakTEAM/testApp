@@ -6,10 +6,6 @@
 package TestApplications.Views;
 
 import TestApplications.Controllers.Test6Controller;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONObject;
 
 /**
  *
@@ -18,12 +14,8 @@ import org.json.simple.JSONObject;
 public class Test6View extends javax.swing.JFrame {
     private Test6Controller controller;
 
-    public Test6View(JSONObject test, JSONObject usr) throws FileNotFoundException {
+    public Test6View() {
         initComponents();
-        this.controller = new Test6Controller(this, test, usr);
-        }
-    private Test6View() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     /**
      * Creates new form Test6View
@@ -46,7 +38,7 @@ public class Test6View extends javax.swing.JFrame {
         jButtonPrev = new javax.swing.JButton();
         jButtonNext = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabelQuestion.setText("Вопрос");
 
@@ -122,15 +114,11 @@ public class Test6View extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrevActionPerformed
-       controller.prev();
+
     }//GEN-LAST:event_jButtonPrevActionPerformed
 
     private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
-        try {
-            controller.next();
-        } catch (Exception ex) {
-            Logger.getLogger(Test6View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+ 
     }//GEN-LAST:event_jButtonNextActionPerformed
 
     /**

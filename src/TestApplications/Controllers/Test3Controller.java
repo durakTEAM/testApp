@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -32,8 +33,9 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-public class Test3Controller extends TestController implements KeyListener,
-        ActionListener, WindowListener, TableModelListener{
+public class Test3Controller 
+    extends TestController 
+    implements KeyListener, ActionListener, WindowListener, TableModelListener{
     
     public List<String[]> test;
     private TreeSet<String> key = new TreeSet<>();
@@ -41,9 +43,11 @@ public class Test3Controller extends TestController implements KeyListener,
     
     private TreeSet<Integer> isReady = new TreeSet<>();
     
-    public Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
+    public Test3Controller(JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
         super(usr, t);
-        this.view = view;
+        this.view = new Test3View();
+        this.view.setVisible(true);
+        this.setListeners();
         CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
         test = reader.readAll();
         String str = (String) t.get("key");
@@ -222,5 +226,12 @@ public class Test3Controller extends TestController implements KeyListener,
         if (this.isReady.size() == 30) {
             this.view.btnReady.setEnabled(true);
         }
+    }
+
+    private void setListeners() {
+        this.view.btnReady.addActionListener(this);
+        this.view.tableTests.addKeyListener(this);
+        
+        this.view.addWindowListener(this);
     }
 }

@@ -5,17 +5,12 @@
  */
 package TestApplications.Controllers;
 
+import TestApplications.Views.AuthView;
 import TestApplications.Views.EnterView;
-import TestApplications.Views.Test3View;
-import TestApplications.Views.Test4View;
-import TestApplications.Views.Test5View;
-import TestApplications.Views.Test6View;
-import TestApplications.Views.Test7View;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
 import TestApplications.Workers.SendAttachmentInEmailWorker;
-import TestApplications.frameTest1;
 import TestApplications.frameTest2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +23,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -57,19 +53,30 @@ public class EnterController implements ActionListener, ListDataListener,
     public EnterController(EnterView view, JSONObject usr) throws Exception{
         this.view = view;
         this.usr = usr;
-        this.complitedTests = (JSONArray) usr.get("testsArray");
-        this.sendedResults = (JSONArray) usr.get("sendedResults");
         
         this.filename = "user"+usr.get("ID")+"res.csv";
         
-        this.testsArray = JSONWorker.open("tests/test1.json");
+        try {
+            this.testsArray = JSONWorker.open("tests/test1.json");
+            if(this.testsArray.size()!=((JSONArray)(usr.get("testsArray"))).size()) {
+                throw new Exception("Bad tests.json file");
+            }
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+            this.view.setVisible(false);
+            this.view.dispose();
+        }
         DefaultListModel listmodel = new DefaultListModel();
         for (int i = 0; i < this.testsArray.size(); i++) {
             listmodel.addElement(JSONWorker.get(testsArray, i).get("name"));
         }
         this.view.testsComboBox.setModel(listmodel);
         this.view.testsComboBox.addListSelectionListener(this);
-        
+    }
+    
+    private void setUserInfo() {
         String[] info = this.getUserInfo();
         this.view.setTitle(info[0]);
         this.view.labelCntOfFinishedTests.setText(info[1]);
@@ -87,7 +94,7 @@ public class EnterController implements ActionListener, ListDataListener,
                 temp[0]++;
             }
             if ((int)this.sendedResults.get(i) == 1) {
-                temp[0]++;
+                temp[1]++;
             }
         }
         info[1] = String.valueOf("Пройдено тестов: " + temp[0]);
@@ -111,7 +118,10 @@ public class EnterController implements ActionListener, ListDataListener,
             this.view.menuTestStart.setText("Пройти тест");
         }
     }
+    
     public void updateSendButton() {
+        this.complitedTests = (JSONArray) usr.get("testsArray");
+        this.sendedResults = (JSONArray) usr.get("sendedResults");
         if (sendedResults.equals(complitedTests)) {
             this.view.menuTestSend.setEnabled(false);
             this.view.menuTestSend.setText("Вы не прошли новых тестов");
@@ -122,82 +132,79 @@ public class EnterController implements ActionListener, ListDataListener,
 
     }
 
-    public void sendResults() {
+    public void sendResults() throws Exception {
         try {
             CSVWorker.makeCSVTemplate((int) usr.get("ID"));
-            SendAttachmentInEmailWorker.send(this.to, this.from, this.password, this.filename);
-            usr.put("sendedResults", (JSONArray) usr.get("testsArray"));
-            FileWorker.write("users/users.json", usr);
-            this.updateSendButton();
+            try {
+                SendAttachmentInEmailWorker.send(this.to, this.from, this.password, this.filename);
+                usr.put("sendedResults", (JSONArray) usr.get("testsArray"));
+                FileWorker.write("users/users.json", usr);
+                this.updateSendButton();
+                this.setUserInfo();
+                JOptionPane.showMessageDialog(view, "Результаты отправлены!");
+            } catch (RuntimeException ex) {
+                JOptionPane.showMessageDialog(view, ex.getMessage());
+            }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+        } 
     }
 
-    public void startTest() {
-        try {
-            int i = this.view.testsComboBox.getSelectedIndex();
-            int j = (int) ((JSONObject)this.testsArray.get(i)).get("type");
-            if (j==1){
-                try {
-                    new frameTest1((JSONObject) testsArray.get(i), usr).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j==2){
-                try {
-                    new frameTest2((JSONObject) testsArray.get(i), usr).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j == 3) {
-                try {
-                    new Test3View((JSONObject) testsArray.get(i), usr).setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j == 4) {
-                try {
-                    new Test4View((JSONObject) testsArray.get(i), usr).setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (j == 5) {
-                new Test5View((JSONObject) testsArray.get(i), usr).setVisible(true);
-            }
-            if (j == 6){
-                new Test6View((JSONObject) testsArray.get(i), usr).setVisible(true);
-            }
-            if (j == 7) {
-                new Test7View((JSONObject) testsArray.get(i), usr).setVisible(true);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        }    
+    public void startTest() throws FileNotFoundException, IOException, Exception {
+        int i = this.view.testsComboBox.getSelectedIndex();
+        int j = (int) ((JSONObject)this.testsArray.get(i)).get("type");
+        TestController test;
+        if (j==1){
+            test = new Test1Controller((JSONObject) testsArray.get(i), usr);
+        }
+        if (j==2){
+            new frameTest2((JSONObject) testsArray.get(i), usr).setVisible(true);
+        }
+        if (j == 3) {
+            test = new Test3Controller((JSONObject) testsArray.get(i), usr);
+        }
+        if (j == 4) {
+            test = new Test4Controller((JSONObject) testsArray.get(i), usr);
+        }
+        if (j == 5) {
+            test = new Test5Controller((JSONObject) testsArray.get(i), usr);
+        }
+        if (j == 6){
+            test = new Test6Controller((JSONObject) testsArray.get(i), usr);
+        }
+        if (j == 7) {
+            test = new Test7Controller((JSONObject) testsArray.get(i), usr);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Пройти тест")) {
-            this.startTest();
+            try {
+                this.startTest();
+            } catch (Exception ex) {
+                Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (e.getActionCommand().equals("Закрыть программу")) {
             this.view.setVisible(false);
             this.view.dispose();
         }
         if (e.getActionCommand().equals("Отправить результаты")) {
-            this.sendResults();
+            try {
+                this.sendResults();
+            } catch (Exception ex) {
+                Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (e.getActionCommand().equals("Сменить пользователя")) {
-            //TODO
+            this.view.setVisible(false);
+            this.view.dispose();
+            try {
+                new AuthView().setVisible(true);
+            } catch (Exception ex) {
+                Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -221,7 +228,7 @@ public class EnterController implements ActionListener, ListDataListener,
         try {
             this.updateTestBtn();
         } catch (Exception ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(view, "Не удалось запустить тест");
         }
     }
 
@@ -255,6 +262,7 @@ public class EnterController implements ActionListener, ListDataListener,
         try {
             this.updateSendButton();
             this.updateTestBtn();
+            this.setUserInfo();
         } catch (Exception ex) {
             Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -267,8 +275,12 @@ public class EnterController implements ActionListener, ListDataListener,
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {
-            this.startTest();
+        if (e.getClickCount() == 2 && this.view.menuTestStart.isEnabled()) {
+            try {
+                this.startTest();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Не удалось запустить тест");
+            }
         }
     }
 

@@ -30,7 +30,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuTestClose">
               <Properties>
-                <Property name="text" type="java.lang.String" value=" &#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x43f;&#x440;&#x43e;&#x433;&#x440;&#x430;&#x43c;&#x43c;&#x443;"/>
+                <Property name="text" type="java.lang.String" value="&#x417;&#x430;&#x43a;&#x440;&#x44b;&#x442;&#x44c; &#x43f;&#x440;&#x43e;&#x433;&#x440;&#x430;&#x43c;&#x43c;&#x443;"/>
               </Properties>
             </MenuItem>
           </SubComponents>

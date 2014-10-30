@@ -66,9 +66,10 @@ public class SingUpView extends javax.swing.JFrame {
         textUserType = new javax.swing.JTextArea();
         applyButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Новый пользователь");
         setResizable(false);
+        setType(java.awt.Window.Type.POPUP);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labelUserLastname.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
