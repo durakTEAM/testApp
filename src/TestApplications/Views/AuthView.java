@@ -6,9 +6,9 @@
 package TestApplications.Views;
 
 import TestApplications.Controllers.AuthController;
-import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,17 +19,23 @@ public class AuthView extends javax.swing.JFrame {
 
     private AuthController controller;
 
-    public AuthView() throws FileNotFoundException, Exception {
-        initComponents();
-        this.controller = new AuthController(this);
-        this.addWindowListener(this.controller);
-        this.usersList.addListSelectionListener(this.controller);
-        this.usersList.addMouseListener(this.controller);
-        this.menuNewFile.addActionListener(this.controller);
-        this.menuExit.addActionListener(this.controller);
-        this.createUserButton.addActionListener(this.controller);
-        this.enterUserButton.addActionListener(this.controller);
-        this.usersList.addKeyListener(this.controller);
+    public AuthView() {
+        try {
+            initComponents();
+            this.controller = new AuthController(this);
+            this.addWindowListener(this.controller);
+            this.usersList.addListSelectionListener(this.controller);
+            this.usersList.addMouseListener(this.controller);
+            this.menuNewFile.addActionListener(this.controller);
+            this.menuExit.addActionListener(this.controller);
+            this.createUserButton.addActionListener(this.controller);
+            this.enterUserButton.addActionListener(this.controller);
+            this.usersList.addKeyListener(this.controller);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            this.setVisible(false);
+            this.dispose();
+        }
     }
 
     /**
@@ -196,7 +202,6 @@ public class AuthView extends javax.swing.JFrame {
 
                 try {
                     new AuthView().setVisible(true);
-
                 } catch (Exception ex) {
                     Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -5,25 +5,16 @@
  */
 package TestApplications.Views;
 
-import TestApplications.Controllers.Test6Controller;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONObject;
-
 /**
  *
  * @author aleksejtitorenko
  */
 public class Test6View extends javax.swing.JFrame {
-    private Test6Controller controller;
 
-    public Test6View(JSONObject test, JSONObject usr) throws FileNotFoundException {
+    public Test6View() {
         initComponents();
-        this.controller = new Test6Controller(this, test, usr);
-        }
-    private Test6View() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setLocationRelativeTo(null);
+        this.setVisible(true);
     }
     /**
      * Creates new form Test6View
@@ -41,36 +32,50 @@ public class Test6View extends javax.swing.JFrame {
         jLabelQuestion = new javax.swing.JLabel();
         jLabelAns1 = new javax.swing.JLabel();
         jLabelAns2 = new javax.swing.JLabel();
-        text1 = new javax.swing.JTextField();
-        text2 = new javax.swing.JTextField();
         jButtonPrev = new javax.swing.JButton();
         jButtonNext = new javax.swing.JButton();
+        text1 = new javax.swing.JSpinner();
+        text2 = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabelQuestion.setText("Вопрос");
+        jLabelQuestion.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 153), new java.awt.Color(0, 0, 102)));
 
+        jLabelAns1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabelAns1.setText("Ответ1:");
+        jLabelAns1.setPreferredSize(new java.awt.Dimension(605, 80));
 
+        jLabelAns2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabelAns2.setText("Ответ 2:");
+        jLabelAns2.setPreferredSize(new java.awt.Dimension(605, 80));
 
-        text1.setColumns(3);
-
-        text2.setColumns(3);
-
+        jButtonPrev.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButtonPrev.setText("Prev");
+        jButtonPrev.setPreferredSize(new java.awt.Dimension(120, 60));
         jButtonPrev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPrevActionPerformed(evt);
             }
         });
 
+        jButtonNext.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         jButtonNext.setText("Next");
+        jButtonNext.setPreferredSize(new java.awt.Dimension(120, 60));
         jButtonNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNextActionPerformed(evt);
             }
         });
+
+        text1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        text1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 5, 1));
+        text1.setMaximumSize(new java.awt.Dimension(42, 30));
+
+        text2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        text2.setModel(new javax.swing.SpinnerNumberModel(0, 0, 5, 1));
+        text2.setMaximumSize(new java.awt.Dimension(42, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,59 +83,58 @@ public class Test6View extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelAns2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabelAns1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(text1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabelAns2, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(13, 13, 13)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(210, 210, 210)
+                .addComponent(jButtonPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jButtonPrev)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 469, Short.MAX_VALUE)
-                .addComponent(jButtonNext)
-                .addGap(33, 33, 33))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelAns1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jButtonNext, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jLabelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelAns1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(80, 80, 80))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelAns2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelAns1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelAns2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(text2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonPrev)
-                    .addComponent(jButtonNext)))
+                    .addComponent(jButtonNext, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrevActionPerformed
-       controller.prev();
+
     }//GEN-LAST:event_jButtonPrevActionPerformed
 
     private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
-        try {
-            controller.next();
-        } catch (Exception ex) {
-            Logger.getLogger(Test6View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+ 
     }//GEN-LAST:event_jButtonNextActionPerformed
 
     /**
@@ -174,7 +178,7 @@ public class Test6View extends javax.swing.JFrame {
     public javax.swing.JLabel jLabelAns1;
     public javax.swing.JLabel jLabelAns2;
     public javax.swing.JLabel jLabelQuestion;
-    public javax.swing.JTextField text1;
-    public javax.swing.JTextField text2;
+    public javax.swing.JSpinner text1;
+    public javax.swing.JSpinner text2;
     // End of variables declaration//GEN-END:variables
 }

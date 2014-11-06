@@ -5,36 +5,16 @@
  */
 package TestApplications.Views;
 
-import TestApplications.Controllers.Test7Controller;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONObject;
-
 /**
  *
  * @author artemsamsonov
  */
 public class Test7View extends javax.swing.JFrame {
-    private final Test7Controller controller;
     /**
      * Creates new form Test7View
      */
-    public Test7View(JSONObject test, JSONObject usr) throws FileNotFoundException {
+    public Test7View() {
         initComponents();
-        this.controller = new Test7Controller(this, usr, test);
-        
-        this.rb11.addActionListener(this.controller.l1);
-        this.rb12.addActionListener(this.controller.l1);
-        this.rb13.addActionListener(this.controller.l1);
-        this.rb21.addActionListener(this.controller.l2);
-        this.rb22.addActionListener(this.controller.l2);
-        this.rb23.addActionListener(this.controller.l2);
-        
-    }
-
-    private Test7View() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -58,20 +38,28 @@ public class Test7View extends javax.swing.JFrame {
         rb22 = new javax.swing.JCheckBox();
         rb23 = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         labelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        labelQuestion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelQuestion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelQuestion.setText("123");
+        labelQuestion.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 153), new java.awt.Color(0, 102, 102)));
+        labelQuestion.setMaximumSize(new java.awt.Dimension(552, 173));
+        labelQuestion.setMinimumSize(new java.awt.Dimension(552, 173));
+        labelQuestion.setPreferredSize(new java.awt.Dimension(552, 173));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel1.setText("Наиболее подходит:");
 
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Наименее подходит:");
         jLabel2.setToolTipText("");
 
         btnPrev.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         btnPrev.setText("< Prev");
+        btnPrev.setMaximumSize(new java.awt.Dimension(270, 50));
+        btnPrev.setMinimumSize(new java.awt.Dimension(270, 50));
+        btnPrev.setPreferredSize(new java.awt.Dimension(270, 50));
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrevActionPerformed(evt);
@@ -80,6 +68,9 @@ public class Test7View extends javax.swing.JFrame {
 
         btnNext.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         btnNext.setText("Next >");
+        btnNext.setMaximumSize(new java.awt.Dimension(270, 50));
+        btnNext.setMinimumSize(new java.awt.Dimension(270, 50));
+        btnNext.setPreferredSize(new java.awt.Dimension(270, 50));
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
@@ -114,70 +105,69 @@ public class Test7View extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(148, 148, 148)
-                .addComponent(btnPrev)
-                .addGap(18, 18, 18)
-                .addComponent(btnNext)
-                .addContainerGap(212, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(rb11)
-                            .addComponent(rb12)
-                            .addComponent(rb13))
-                        .addGap(119, 119, 119)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rb23)
-                            .addComponent(rb22)
-                            .addComponent(rb21)
-                            .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(rb11)
+                                    .addComponent(rb12)
+                                    .addComponent(rb13))
+                                .addGap(119, 119, 119)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rb23)
+                                    .addComponent(rb22)
+                                    .addComponent(rb21)
+                                    .addComponent(jLabel2)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rb11)
-                    .addComponent(rb21))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rb12)
-                    .addComponent(rb22))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rb13)
-                    .addComponent(rb23))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPrev)
-                    .addComponent(btnNext))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rb13)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        try {
-            this.controller.next();
-        } catch (Exception ex) {
-            Logger.getLogger(Test7View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+      
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        this.controller.prev();
+ 
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void rb21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rb21ActionPerformed

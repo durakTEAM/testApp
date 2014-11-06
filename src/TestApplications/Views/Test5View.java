@@ -5,28 +5,18 @@
  */
 package TestApplications.Views;
 
-import TestApplications.Controllers.Test5Controller;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONObject;
-
 /**
  *
  * @author artemsamsonov
  */
 public class Test5View extends javax.swing.JFrame {
-    private Test5Controller controller;
     /**
      * Creates new form Test5View
      */
-    public Test5View(JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test5View() {
         initComponents();
-        this.controller = new Test5Controller(this, test, usr);
-    }
-
-    private Test5View() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /**
@@ -38,13 +28,12 @@ public class Test5View extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelQuestion = new javax.swing.JLabel();
         btnA = new javax.swing.JButton();
         btnB = new javax.swing.JButton();
+        labelQuestion = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        labelQuestion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
 
         btnA.setText("A");
         btnA.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -70,6 +59,12 @@ public class Test5View extends javax.swing.JFrame {
             }
         });
 
+        labelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        labelQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        labelQuestion.setMaximumSize(new java.awt.Dimension(502, 120));
+        labelQuestion.setMinimumSize(new java.awt.Dimension(502, 120));
+        labelQuestion.setPreferredSize(new java.awt.Dimension(502, 120));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,25 +72,31 @@ public class Test5View extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnA, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(labelQuestion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnA, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnB, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnA, btnB});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(labelQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnA)
+                    .addComponent(btnA, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnB))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnA, btnB});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -109,19 +110,11 @@ public class Test5View extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBActionPerformed
 
     private void btnBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBMouseClicked
-        try {
-            this.controller.b();
-        } catch (Exception ex) {
-            Logger.getLogger(Test5View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_btnBMouseClicked
 
     private void btnAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAMouseClicked
-        try {
-            this.controller.a();
-        } catch (Exception ex) {
-            Logger.getLogger(Test5View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_btnAMouseClicked
 
     /**
@@ -160,8 +153,8 @@ public class Test5View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnA;
-    private javax.swing.JButton btnB;
+    public javax.swing.JButton btnA;
+    public javax.swing.JButton btnB;
     public javax.swing.JLabel labelQuestion;
     // End of variables declaration//GEN-END:variables
 }

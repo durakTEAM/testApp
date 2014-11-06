@@ -5,8 +5,13 @@
  */
 package TestApplications.Workers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,11 +42,41 @@ public class JSONWorker {
      */
     static public JSONArray open(CharSequence path) throws FileNotFoundException, Exception {
         JSONParser parser = new JSONParser();
-        JSONArray arr;
-        try (FileReader file = new FileReader((String) path)) {
-            arr = (JSONArray) parser.parse(file);
+        File f = new File((String) path);
+        if (!f.isFile()) {
+            if (path.equals("users/users.json")) {
+                JSONWorker.createUsersFile(path, f);
+                throw new FileNotFoundException("<html>Файл <i>users.json</i> не был найден"
+                        + "<p>Был создан пустой список пользователeй</html>");
+            } else {
+                throw new Exception("Отсутствует файл с тестами");
+            }
         }
-        return arr;
+        Object arr;
+        FileReader file = new FileReader((String) path);
+        try {
+            arr = parser.parse(file);
+            if (arr instanceof JSONArray) {
+                return (JSONArray)arr;
+            } else {
+                if (path.equals("users/users.json")) {
+                    JSONWorker.createUsersFile(path, f);
+                    throw new FileNotFoundException("<html>Файл <i>users.json</i> повреждён"
+                            + "<p>Был создан пустой список пользователeй</html>");
+                } else {
+                    throw new Exception("Повреждён файл с тестами");
+                }
+            }
+        } catch (Exception ex) {
+            if (path.equals("users/users.json")) {
+                JSONWorker.createUsersFile(path, f);
+                throw new FileNotFoundException("<html>Файл <i>users.json</i> повреждён"
+                    + "<p>Был создан пустой список пользователeй</html>");
+            } else {
+                throw new Exception("Повреждён файл с тестами");
+            }
+        }
+        
     }
     /**
      * Method is used to read JSONObject from file with JSONArray
@@ -56,7 +91,11 @@ public class JSONWorker {
         JSONArray arr;
         try (FileReader file = new FileReader((String) path)) {
             arr = (JSONArray) parser.parse(file);
-        }
+        } catch (FileNotFoundException ex) {
+            throw new FileNotFoundException(ex.getLocalizedMessage() + "\nФайл "+path+" не найден");
+        } catch (Exception ex){
+            throw new Exception(ex.getLocalizedMessage() + "\nОшибка чтения файла " + path);
+        } 
         JSONObject usr = (JSONObject) arr.get(id);
         convertArraysToInt(usr);
         return usr;
@@ -73,9 +112,8 @@ public class JSONWorker {
      * @param arr
      * @param id
      * @return
-     * @throws Exception 
      */
-    static public JSONObject get(JSONArray arr, int id) throws Exception {
+    static public JSONObject get(JSONArray arr, int id) {
         JSONObject obj = (JSONObject) arr.get(id);
         convertArraysToInt(obj);
         return obj;
@@ -86,9 +124,6 @@ public class JSONWorker {
      * be converted to array<int>
      */
     static private void convertArraysToInt(JSONObject usr){
-        /*if (usr.containsKey("testsResults")) {
-            usr.put("testsResults", longToInt((JSONArray) usr.get("testsResults")));
-        }*/
         if (usr.containsKey("testsArray")) {
             usr.put("testsArray", longToInt((JSONArray) usr.get("testsArray")));
         }    
@@ -101,5 +136,26 @@ public class JSONWorker {
         if (usr.containsKey("type")) {
             usr.put("type", ((Long)usr.get("type")).intValue());
         }
+        if (usr.containsKey("fact")) {
+            usr.put("fact", ((Long)usr.get("fact")).intValue());
+        }
+        if (usr.containsKey("ans1") && usr.get("ans1") instanceof Long) {
+            usr.put("ans1", ((Long)usr.get("ans1")).intValue());
+        }   
+        if (usr.containsKey("ans2") && usr.get("ans2") instanceof Long) {
+            usr.put("ans2", ((Long)usr.get("ans2")).intValue());
+        }   
+    }
+
+    private static void createUsersFile(CharSequence path, File f) throws Exception {
+        if (path.equals("users/users.json")) {
+            try {
+                FileWriter fw = new FileWriter(f);
+                fw.write("[]");
+                fw.flush();
+            } catch (IOException ex) {
+                throw new Exception("Не удалось создать пустой файл " + path);
+            }
+            }
     }
 }

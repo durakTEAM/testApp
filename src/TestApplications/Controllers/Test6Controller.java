@@ -8,30 +8,46 @@ package TestApplications.Controllers;
 import TestApplications.Views.Test6View;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import org.json.simple.JSONObject;
 
 /**
  *
  * @author aleksejtitorenko
  */
-public class Test6Controller extends TestController {
+public class Test6Controller 
+    extends TestController 
+    implements ActionListener, ChangeListener {
 
     private final Test6View view;
     private LinkedList<String[]> questions = new LinkedList<>();
     private int step = 0;
-    ArrayList answers = new ArrayList();
+    ArrayList<int[]> answers = new ArrayList<>();
     ArrayList<Integer[]> keys = new ArrayList<>();
     int[] results = new int[8];
     String strOfResults = new String();
-    public Test6Controller(Test6View view, JSONObject test, JSONObject usr) throws FileNotFoundException {
+    
+    public Test6Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
-        this.view = view;
+        this.view = new Test6View();
+        this.view.setVisible(true);
+        this.view.setTitle((String) test.get("name"));
+        this.view.jButtonNext.setEnabled(false);
+        this.view.text1.addChangeListener(this);
+        this.view.text2.addChangeListener(this);
+        this.view.jButtonNext.addActionListener(this);
+        this.view.jButtonPrev.addActionListener(this);
+        
         for (int i = 0; i < 28; i++) {
             int[] tmp = new int[2];
             answers.add(tmp);
@@ -61,47 +77,50 @@ public class Test6Controller extends TestController {
     }
 
     private void updateLabels() {
+        int[] temp = new int[2];
+        temp[0] = (int) view.text1.getValue();
+        temp[1] = (int) view.text2.getValue();
+        int sum = (int) temp[0] + temp[1];
+        if (sum == 5) {
+            this.view.jButtonNext.setEnabled(true);
+        } else {
+            this.view.jButtonNext.setEnabled(false);
+        }
         if (step == 0) {
             this.view.jButtonPrev.setEnabled(false);
         }
-        else this.view.jButtonPrev.setEnabled(true);
+        else {
+            this.view.jButtonPrev.setEnabled(true);
+        }
         if (step == 27) {
-            this.view.jButtonNext.setText("Завершить  тест");
+            this.view.jButtonNext.setText("Finish");
 
         } else {
             this.view.jButtonNext.setText("Next");
         }
-
-        int[] textfield = (int[]) answers.get(step);
-        view.text1.setText(Integer.toString(textfield[0]));
-        view.text2.setText(Integer.toString(textfield[1]));
-        view.jLabelQuestion.setText("<html>" + this.questions.get(step)[0] + "</html>");
-        view.jLabelAns1.setText("<html>" + this.questions.get(step)[1] + "</html>");
-        view.jLabelAns2.setText("<html>" + this.questions.get(step)[2] + "</html>");
+        updateSpinners();
+        view.jLabelQuestion.setText("<html>&#32;&#32;&#32;" + this.questions.get(step)[0] + "</html>");
+        view.jLabelAns1.setText("<html>&#32;<b>1) &#32;</b>" + this.questions.get(step)[1] + "</html>");
+        view.jLabelAns2.setText("<html>&#32;<b>2) &#32;</b>" + this.questions.get(step)[2] + "</html>");
     }
 
-    public void next() throws Exception {
+    public void next() {
         int[] temp = new int[2];
-        temp[0] = Integer.parseInt(view.text1.getText());
-        temp[1] = Integer.parseInt(view.text2.getText());
-        int sum = (int) temp[0] + temp[1];
-        if (sum == 5) {
-            answers.set(step, temp);
-            step++;
-            if (step == 28) {
-                this.finishTest();
-                return;
-            }
-            this.updateLabels();
-        } else {
-            JOptionPane.showMessageDialog(null, "<html>Распределите баллы корректно<p>"
-                    + "Необходимо распределить все 5 баллов по 2 пунктам</html>");
+        temp[0] = (Integer) this.view.text1.getValue();
+        temp[1] = (Integer) this.view.text2.getValue();
+        answers.set(step, temp);
+        step++;
+        if (step == 28) {
+            this.finishTest();
+            return;
         }
-
+        this.updateSpinners(this.answers.get(step));
+        this.updateLabels();
     }
 
     public void prev() {
         step--;
+        this.updateSpinners(this.answers.get(step));
         updateLabels();
     }
 
@@ -129,13 +148,46 @@ public class Test6Controller extends TestController {
     }
 
     @Override
-    public void finishTest() throws Exception {
+    public void finishTest() {
         
         this.getTestCnt();
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults", this.strOfResults, n.byteValue());
-        FileWorker.write("users/users.json", usr);
+        try {
+            FileWorker.write("users/users.json", usr);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "Не удалось записать результаты");
+        }
         this.view.setVisible(false);
+        this.view.dispose();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Next")) this.next();
+        if (e.getActionCommand().equals("Prev")) this.prev();
+        if (e.getActionCommand().equals("Finish")) this.finishTest();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        this.updateSpinners();
+        this.updateLabels();
+    }
+    
+    private void updateSpinners() {
+        int[] temp = new int[2];
+        temp[0] = (int) view.text1.getValue();
+        temp[1] = (int) view.text2.getValue();
+        int sum = temp[0] + temp[1];
+        
+        this.view.text1.setModel(new SpinnerNumberModel((int) this.view.text1.getValue(), 0, 5-sum+(int) this.view.text1.getValue(), 1));
+        this.view.text2.setModel(new SpinnerNumberModel((int) this.view.text2.getValue(), 0, 5-sum+(int) this.view.text2.getValue(), 1));
+    }
+    private void updateSpinners(int[] a) {
+        int sum = a[0] + a[1];
+        
+        this.view.text1.setModel(new SpinnerNumberModel(a[0], 0, 5-sum+a[0], 1));
+        this.view.text2.setModel(new SpinnerNumberModel(a[1], 0, 5-sum+a[1], 1));
+    }
 }

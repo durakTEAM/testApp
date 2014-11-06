@@ -7,8 +7,7 @@ package TestApplications.Views;
 
 import TestApplications.Controllers.EnterController;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.ListSelectionModel;
 import org.json.simple.JSONObject;
 
 /**
@@ -23,7 +22,14 @@ public class EnterView extends javax.swing.JFrame {
      */
     public EnterView(JSONObject usr) throws FileNotFoundException, Exception {
         initComponents();
+        this.testsComboBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.controller = new EnterController(this, usr);
+        this.menuTestStart.addActionListener(this.controller);
+        this.menuTestSend.addActionListener(this.controller);
+        this.menuUserChange.addActionListener(this.controller);
+        this.menuTestClose.addActionListener(this.controller);
+        this.testsComboBox.addMouseListener(this.controller);
+        this.addWindowListener(this.controller);
     }
 
     private EnterView() {
@@ -39,10 +45,17 @@ public class EnterView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        FIOLabel = new javax.swing.JLabel();
-        testsComboBox = new javax.swing.JComboBox();
-        startTestButton = new javax.swing.JButton();
-        buttonResults = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        testsComboBox = new javax.swing.JList();
+        labelCntOfFinishedTests = new javax.swing.JLabel();
+        labelOfSendedTests = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuTest = new javax.swing.JMenu();
+        menuTestStart = new javax.swing.JMenuItem();
+        menuTestSend = new javax.swing.JMenuItem();
+        menuTestClose = new javax.swing.JMenuItem();
+        menuUser = new javax.swing.JMenu();
+        menuUserChange = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -55,32 +68,48 @@ public class EnterView extends javax.swing.JFrame {
             }
         });
 
-        FIOLabel.setText("ФИО");
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(49, 200));
 
-        testsComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                testsComboBoxItemStateChanged(evt);
-            }
+        testsComboBox.setBackground(new java.awt.Color(208, 211, 220));
+        testsComboBox.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        testsComboBox.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
         });
+        testsComboBox.setBounds(new java.awt.Rectangle(0, 0, 39, 200));
+        jScrollPane1.setViewportView(testsComboBox);
 
-        startTestButton.setText("Пройти тест");
-        startTestButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                startTestButtonMousePressed(evt);
-            }
-        });
-        startTestButton.addActionListener(new java.awt.event.ActionListener() {
+        labelCntOfFinishedTests.setText("Пройдено тестов:");
+
+        labelOfSendedTests.setText("Отправлено результатов: ");
+
+        menuTest.setText("Тест");
+
+        menuTestStart.setText("Пройти тест");
+        menuTestStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startTestButtonActionPerformed(evt);
+                menuTestStartActionPerformed(evt);
             }
         });
+        menuTest.add(menuTestStart);
 
-        buttonResults.setText("Отправить результаты");
-        buttonResults.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonResultsActionPerformed(evt);
-            }
-        });
+        menuTestSend.setText("Отправить результаты");
+        menuTest.add(menuTestSend);
+
+        menuTestClose.setText("Закрыть программу");
+        menuTest.add(menuTestClose);
+
+        jMenuBar1.add(menuTest);
+
+        menuUser.setText("Пользователь");
+
+        menuUserChange.setText("Сменить пользователя");
+        menuUser.add(menuUserChange);
+
+        jMenuBar1.add(menuUser);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,66 +118,40 @@ public class EnterView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(FIOLabel)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(testsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(buttonResults)
-                            .addComponent(startTestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelOfSendedTests)
+                            .addComponent(labelCntOfFinishedTests))
+                        .addGap(0, 362, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(FIOLabel)
+                .addComponent(labelCntOfFinishedTests)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(testsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(startTestButton))
-                .addGap(18, 18, 18)
-                .addComponent(buttonResults, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addComponent(labelOfSendedTests)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void startTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTestButtonActionPerformed
-        this.controller.startTest();
-    }//GEN-LAST:event_startTestButtonActionPerformed
-
-    private void startTestButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startTestButtonMousePressed
-        
-    }//GEN-LAST:event_startTestButtonMousePressed
     
-    private void testsComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_testsComboBoxItemStateChanged
-        try {
-            if (this.controller != null) this.controller.updateTestBtn();
-        } catch (Exception ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_testsComboBoxItemStateChanged
-
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        try {
-            if (this.controller != null) {
-                this.controller.updateTestBtn();
-                this.controller.updateSendButton();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_formWindowActivated
 
-    private void buttonResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResultsActionPerformed
-        this.controller.sendResults();
-    }//GEN-LAST:event_buttonResultsActionPerformed
+    private void menuTestStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTestStartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuTestStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,9 +190,16 @@ public class EnterView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel FIOLabel;
-    public javax.swing.JButton buttonResults;
-    public javax.swing.JButton startTestButton;
-    public javax.swing.JComboBox testsComboBox;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel labelCntOfFinishedTests;
+    public javax.swing.JLabel labelOfSendedTests;
+    private javax.swing.JMenu menuTest;
+    private javax.swing.JMenuItem menuTestClose;
+    public javax.swing.JMenuItem menuTestSend;
+    public javax.swing.JMenuItem menuTestStart;
+    private javax.swing.JMenu menuUser;
+    private javax.swing.JMenuItem menuUserChange;
+    public javax.swing.JList testsComboBox;
     // End of variables declaration//GEN-END:variables
 }

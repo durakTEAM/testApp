@@ -32,8 +32,9 @@ import org.json.simple.JSONObject;
  *
  * @author artemsamsonov
  */
-public class Test3Controller extends TestController implements KeyListener,
-        ActionListener, WindowListener, TableModelListener{
+public class Test3Controller 
+    extends TestController 
+    implements KeyListener, ActionListener, WindowListener, TableModelListener{
     
     public List<String[]> test;
     private TreeSet<String> key = new TreeSet<>();
@@ -41,9 +42,12 @@ public class Test3Controller extends TestController implements KeyListener,
     
     private TreeSet<Integer> isReady = new TreeSet<>();
     
-    public Test3Controller(Test3View view, JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
+    public Test3Controller(JSONObject t, JSONObject usr) throws FileNotFoundException, IOException {
         super(usr, t);
-        this.view = view;
+        this.view = new Test3View();
+        this.view.setVisible(true);
+        this.view.setTitle((String) t.get("name"));
+        this.setListeners();
         CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
         test = reader.readAll();
         String str = (String) t.get("key");
@@ -64,8 +68,20 @@ public class Test3Controller extends TestController implements KeyListener,
                 
             }
         }
-        this.view.tableTests.getColumnModel().getColumn(0).setMinWidth(20);
-        this.view.tableTests.getColumnModel().getColumn(0).setPreferredWidth(20);
+        this.view.tableTests.getColumnModel().getColumn(0).setMaxWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(0).setPreferredWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(2).setMaxWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(2).setPreferredWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(4).setMaxWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(4).setPreferredWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(6).setMaxWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(6).setPreferredWidth(40);
+        this.view.tableTests.getColumnModel().getColumn(1).setMaxWidth(220);
+        this.view.tableTests.getColumnModel().getColumn(1).setPreferredWidth(220);
+        this.view.tableTests.getColumnModel().getColumn(3).setMaxWidth(220);
+        this.view.tableTests.getColumnModel().getColumn(3).setPreferredWidth(220);
+        this.view.tableTests.getColumnModel().getColumn(5).setMaxWidth(220);
+        this.view.tableTests.getColumnModel().getColumn(5).setPreferredWidth(220);
         for (int i = 1; i < test.size(); i++) {
             this.view.tableTests.getModel().setValueAt(i, i-1, 0);
             for (int j = 1; j < (test.get(i).length * 2 - 1); j+=2) {
@@ -222,5 +238,12 @@ public class Test3Controller extends TestController implements KeyListener,
         if (this.isReady.size() == 30) {
             this.view.btnReady.setEnabled(true);
         }
+    }
+
+    private void setListeners() {
+        this.view.btnReady.addActionListener(this);
+        this.view.tableTests.addKeyListener(this);
+        
+        this.view.addWindowListener(this);
     }
 }

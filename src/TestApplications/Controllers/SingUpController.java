@@ -19,6 +19,7 @@ import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,6 +29,7 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 public class SingUpController implements KeyListener, ActionListener, InputMethodListener {
+    
     private final SingUpView view;
     final private int countOfTests;
     
@@ -35,13 +37,18 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
         this.view = view;
         this.countOfTests = JSONWorker.open("tests/test1.json").size();
     }
+    
     public void apply() throws Exception {
         if (this.textFildsValid()) {
-            FileWorker.write("users/users.json", this.newUser());
-            this.view.setVisible(false);
-            new AuthView().setVisible(true);
+            try {
+                FileWorker.write("users/users.json", this.newUser());
+            } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+            this.view.dispose();
         }
     }
+    
     private JSONArray makeVoidArray(int n) {
         JSONArray temp = new JSONArray();
         for (int i = 0; i < n; i++) {
@@ -49,50 +56,44 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
         }
         return temp;
     }
+    
     private JSONObject newUser() throws Exception {
-        int id = JSONWorker.open("users/users.json").size();
         JSONObject curUsr = new JSONObject();
+        try {
+            int id = JSONWorker.open("users/users.json").size();
+            curUsr.put("ID", id);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            throw new Exception();
+        }
         curUsr.put("name", this.view.textUserName.getText());
         curUsr.put("lastName", this.view.textUserLastname.getText());
         curUsr.put("firstName", this.view.textUserSurname.getText());
         curUsr.put("position", this.view.textUserType.getText());
         curUsr.put("testsArray", this.makeVoidArray(countOfTests));
         curUsr.put("testsResults", this.makeVoidArray(countOfTests));
-        curUsr.put("ID", id);
         curUsr.put("sendedResults", this.makeVoidArray(countOfTests));
         return curUsr;
     }
+    
     private boolean textFildsValid() {
         String name = this.view.textUserName.getText();
         String lastname = this.view.textUserLastname.getText();
         String midname = this.view.textUserSurname.getText();
-        String type = this.view.textUserType.getText();
-        
+        boolean a = true;
         if (lastname.isEmpty()) {
             this.view.textUserLastname.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserLastname.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
         if (name.isEmpty()) {
             this.view.textUserName.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserName.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
         if (midname.isEmpty()) {
             this.view.textUserSurname.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserSurname.setBorder(BorderFactory.createLineBorder(Color.gray));
+            a = false;
         }
-        if (type.isEmpty()) {
-            this.view.textUserType.setBorder(BorderFactory.createLineBorder(Color.red));
-            return false;
-        } else {
-            this.view.textUserType.setBorder(BorderFactory.createLineBorder(Color.gray));
-        }
-        return true;
+        return a;
     }
 
     @Override
@@ -108,13 +109,11 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-          
-                try {
-                    this.apply();
-                } catch (Exception ex) {
-                    Logger.getLogger(SingUpController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
+            try {
+                this.apply();
+            } catch (Exception ex) {
+                Logger.getLogger(SingUpController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -129,15 +128,11 @@ public class SingUpController implements KeyListener, ActionListener, InputMetho
 
     @Override
     public void inputMethodTextChanged(InputMethodEvent event) {
-        if (Character.isDigit(event.getText().current()) ||
-                Character.isWhitespace(event.getText().current())) {
-            event.consume();
-        } else {
-        }
+        ((JTextField)event.getSource()).setBorder(BorderFactory.createLineBorder(Color.gray));
     }
 
     @Override
     public void caretPositionChanged(InputMethodEvent event) {
-        
     }
+    
 }

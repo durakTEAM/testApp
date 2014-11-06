@@ -17,10 +17,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.json.simple.JSONArray;
@@ -34,34 +36,52 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
         KeyListener, MouseListener {
     
     private final AuthView view;
-    private final JSONArray usersArray;
+    private JSONArray usersArray;
     
     private int index = -1;
+    private boolean isIndexRight = false;
     
     public AuthController (AuthView view) throws Exception {
         this.view = view;
-        this.usersArray = JSONWorker.open("users/users.json");
-
+        this.updateList();
+    }
+    
+    private void updateList() throws Exception{
         DefaultListModel listmodel = new DefaultListModel();
-        for (Object i : this.usersArray) {
-            listmodel.addElement(((JSONObject)i).get("lastName") 
-                    + "\t" + ((JSONObject)i).get("name") + "\t"+((JSONObject)i).get("firstName"));
+        try {
+            this.usersArray = JSONWorker.open("users/users.json");
+            for (Object i : this.usersArray) {
+                String temp = String.valueOf(((JSONObject)i).get("ID")) + ")\t" + ((JSONObject)i).get("lastName") + "\t" + ((JSONObject)i).get("name") + "\t" + ((JSONObject)i).get("firstName");
+                listmodel.addElement(temp);
+            }
+            this.view.usersList.setModel(listmodel);
+            this.view.usersList.setSelectedIndex(-1);
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+            
         }
-        this.view.usersList.setModel(listmodel);
-        this.view.usersList.setSelectedIndex(-1);
-        
     }
     public void enter() {
         try {
             new EnterView(JSONWorker.get(usersArray, this.index)).setVisible(true);
-            this.view.setVisible(false);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(AuthView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void create() throws Exception {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+            this.view.setVisible(false);
+            this.view.dispose();
+        } 
         this.view.setVisible(false);
-        new SingUpView().setVisible(true);
+        this.view.dispose();
+    }
+    public void create() {
+        try {
+            new SingUpView().setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
+            this.view.setVisible(false);
+            this.view.dispose();
+        }
     }
 
     @Override
@@ -91,10 +111,11 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
 
     @Override
     public void windowActivated(WindowEvent e) {
-        if (this.usersArray.isEmpty()) {
-            this.view.enterUserButton.setEnabled(false);
-        } else {
-            this.view.enterUserButton.setEnabled(true);
+        try {
+            this.updateList();
+            this.updateEnterBtn();
+        } catch (Exception ex) {
+            Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -106,21 +127,17 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     @Override
     public void valueChanged(ListSelectionEvent e) {
         this.index = ((JList)e.getSource()).getSelectedIndex();
+        this.isIndexRight = (this.index > -1 && this.index < this.usersArray.size());
+        this.updateEnterBtn();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Новый пользователь")) {
-            try {
-                this.create();
-            } catch (Exception ex) {
-                Logger.getLogger(AuthController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.create();
         }
         if (e.getActionCommand().equals("Войти")) {
-            if (this.isIndexRight()) {
                 this.enter();
-            }
         }
         if (e.getActionCommand().equals("Выход")) {
             this.view.setVisible(false);
@@ -140,22 +157,14 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER && this.isIndexRight()) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER && this.isIndexRight) {
             this.enter();
-        }
-    }
-    
-    private boolean isIndexRight() {
-        if (this.index >= 0 && this.index < this.usersArray.size()) {
-            return true;
-        } else {
-            return false;
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 2) {
+        if (e.getClickCount() == 2 && this.isIndexRight) {
             this.enter();
         }
     }
@@ -178,5 +187,13 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private void updateEnterBtn() {
+        if (this.usersArray.isEmpty() || !this.isIndexRight) {
+            this.view.enterUserButton.setEnabled(false);
+        } else {
+            this.view.enterUserButton.setEnabled(true);
+        }
     }
 }

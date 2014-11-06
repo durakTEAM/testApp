@@ -6,6 +6,7 @@
 package TestApplications.Workers;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,6 +40,8 @@ public class CSVWorker {
                 entries[i+3] = ((JSONObject)arr.get(i)).get("name") +"\n" + str + '\n';
             }
             writer.writeNext(entries);
+        } catch (FileNotFoundException ex){
+            throw new FileNotFoundException("Не удалось создать csv файл");
         }
     }
 }

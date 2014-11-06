@@ -23,7 +23,10 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 
-public class Test7Controller extends TestController {
+public class Test7Controller 
+    extends TestController 
+    implements ActionListener{
+    
     private final Test7View view;
     
     private ArrayList<String> questions = new ArrayList<>();
@@ -35,6 +38,12 @@ public class Test7Controller extends TestController {
     public Listener2 l2;
     
     private static int step = 0;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Next >")) this.next();
+        if(e.getActionCommand().equals("< Prev")) this.prev();
+    }
     
     class Listener1 implements ActionListener{
         String str = "";
@@ -66,16 +75,18 @@ public class Test7Controller extends TestController {
         }
     }
     
-    public Test7Controller(Test7View view, JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test7Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
         this.l2 = new Listener2();
         this.l1 = new Listener1();
-        this.view = view;
-        
+        this.view = new Test7View();
+        this.view.setVisible(true);
+        this.setListeners();
+        this.view.setTitle((String) test.get("name"));
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNextLine()) {
                 StringBuilder str = new StringBuilder();
-                str.append("<html><b>").append(in.nextLine()).append("</b><p> ").append(in.nextLine()).append("<p> ").append(in.nextLine()).append("<p>").append(in.nextLine()).append("</html>");
+                str.append("<html><h3 align='leading'><b>&#32;").append(in.nextLine()).append("</b></h3><p>&#32;&#32;&#32; ").append(in.nextLine()).append("<p>&#32;&#32;&#32; ").append(in.nextLine()).append("<p>&#32;&#32;&#32;").append(in.nextLine()).append("</html>");
                 this.questions.add(str.toString());
             }
         } 
@@ -86,6 +97,17 @@ public class Test7Controller extends TestController {
         }
         
         this.updateFrame();
+    }
+    
+    private void setListeners() {
+        this.view.rb11.addActionListener(this.l1);
+        this.view.rb12.addActionListener(this.l1);
+        this.view.rb13.addActionListener(this.l1);
+        this.view.rb21.addActionListener(this.l2);
+        this.view.rb22.addActionListener(this.l2);
+        this.view.rb23.addActionListener(this.l2);
+        this.view.btnNext.addActionListener(this);
+        this.view.btnPrev.addActionListener(this);
     }
     
     @Override
@@ -108,15 +130,19 @@ public class Test7Controller extends TestController {
         return 0;
     }
     
-    public void finishTest() throws Exception {
+    public void finishTest() {
         this.getTestCnt();
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults", this.result.toString(), n.byteValue());
-        FileWorker.write("users/users.json", usr);
+        try {
+            FileWorker.write("users/users.json", usr);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "Невозможно записать результаты теста");
+        }
         this.view.setVisible(false);
     }
     
-    public void next() throws Exception {
+    public void next() {
         if (Test7Controller.step +1 == this.questions.size()) {
             this.finishTest();
             return;
@@ -135,7 +161,7 @@ public class Test7Controller extends TestController {
             }
             this.updateFrame();
         } else {
-            JOptionPane.showMessageDialog(this.view, "Нельзя выбрать один и тотже ответ");
+            JOptionPane.showMessageDialog(this.view, "Некорректный ответ");
         }
         
     }
