@@ -42,7 +42,7 @@ public class Test5Controller
         super(usr, test);
         this.view = new Test5View();
         this.setListeners();
-        
+        this.view.setTitle((String) test.get("name"));
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
@@ -73,13 +73,15 @@ public class Test5Controller
     }
     
     private String str() {
-        String str = this.questions.get(step++).replaceAll(" б", "<p>б");
-        return "<html>"+str+"</html>";
+        StringBuilder str = new StringBuilder(this.questions.get(step++));
+        str.insert(0, "<html><h2>").append("</html>").insert(str.indexOf("  а"),
+                "</h2><p align='leading'>&#32;&#32;").insert(str.indexOf("  б"), "<p align='leading'>&#32;&#32;");
+        return str.toString();
     }
     
     int getTestCnt() {
         int cnt = 0;
-        this.result.append(this.key.get(0)).append(";\n");
+        this.result.append(this.key.get(0)).append("\n;");
         for (int i = 0; i < this.answers.size(); i++) {
             if (this.key.get(i+1).equals(this.answers.get(i))) {
                 cnt++;

@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -56,15 +57,19 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
             this.view.usersList.setModel(listmodel);
             this.view.usersList.setSelectedIndex(-1);
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(view, ex.getMessage() + "\n Перезапустите программу");
+            JOptionPane.showMessageDialog(view, ex.getMessage());
             
         }
     }
     public void enter() {
         try {
             new EnterView(JSONWorker.get(usersArray, this.index)).setVisible(true);
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(view, ex.getMessage());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(view, ex.getMessage());
+            this.view.setVisible(false);
+            this.view.dispose();
         } 
         this.view.setVisible(false);
         this.view.dispose();

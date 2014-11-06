@@ -11,7 +11,6 @@ import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
 import TestApplications.Workers.SendAttachmentInEmailWorker;
-import TestApplications.frameTest2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -102,7 +101,7 @@ public class EnterController implements ActionListener, ListDataListener,
         return info;
     }
     
-    private void updateTestBtn() throws Exception {
+    private void updateTestBtn() {
         if (this.view.testsComboBox.getSelectedIndex() == -1) {
             this.view.menuTestStart.setEnabled(false);
             System.out.println(this.view.getName() + ": В списке не выбран ни один элемент");
@@ -158,7 +157,7 @@ public class EnterController implements ActionListener, ListDataListener,
             test = new Test1Controller((JSONObject) testsArray.get(i), usr);
         }
         if (j==2){
-            new frameTest2((JSONObject) testsArray.get(i), usr).setVisible(true);
+            test = new Test2Controller((JSONObject) testsArray.get(i), usr);
         }
         if (j == 3) {
             test = new Test3Controller((JSONObject) testsArray.get(i), usr);
@@ -194,7 +193,7 @@ public class EnterController implements ActionListener, ListDataListener,
             try {
                 this.sendResults();
             } catch (Exception ex) {
-                Logger.getLogger(EnterController.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(view, "Не удалось отправить результаты");
             }
         }
         if (e.getActionCommand().equals("Сменить пользователя")) {
@@ -225,11 +224,7 @@ public class EnterController implements ActionListener, ListDataListener,
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        try {
-            this.updateTestBtn();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(view, "Не удалось запустить тест");
-        }
+        this.updateTestBtn();
     }
 
     @Override

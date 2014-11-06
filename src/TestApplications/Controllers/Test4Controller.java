@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -32,12 +33,12 @@ public class Test4Controller
     private int[] ans = new int[25];
     private int step = 0;
     
-    public Test4Controller(JSONObject usr, JSONObject test) throws FileNotFoundException {
+    public Test4Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
         
         this.view = new Test4View();
         this.view.setVisible(true);
-        
+        this.view.setTitle((String) test.get("name"));
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
@@ -69,13 +70,8 @@ public class Test4Controller
     }
     
     public void next() throws Exception {
-        if (step+1 < ans.length) {
-            ans[step++] = this.view.slider.getValue();
-            update();
-        } else {
-            finishTest();
-        }
-        
+        ans[step++] = this.view.slider.getValue();
+        update();
     }
     
     public void prev() {
@@ -98,8 +94,12 @@ public class Test4Controller
         return res;
     }
     @Override
-    protected void finishTest() throws Exception {
-        super.finishTest();
+    protected void finishTest() {
+        try {
+            super.finishTest();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "Не удалось записать результаты теста");
+        }
         this.view.setVisible(false);
         this.view.dispose();
     }
@@ -112,6 +112,7 @@ public class Test4Controller
             Logger.getLogger(Test4Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (e.getActionCommand().equals("< Prev")) this.prev();
+        if (e.getActionCommand().equals("Finish")) this.finishTest();
     }
 
     @Override

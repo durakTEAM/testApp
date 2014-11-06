@@ -15,6 +15,8 @@ public class Test4View extends javax.swing.JFrame {
      */
     public Test4View() {
         initComponents();
+        setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /**
@@ -36,7 +38,7 @@ public class Test4View extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -47,6 +49,7 @@ public class Test4View extends javax.swing.JFrame {
         labelQuestins.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         labelQuestins.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelQuestins.setText("Вопрос");
+        labelQuestins.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.gray, java.awt.Color.darkGray));
 
         slider.setMajorTickSpacing(2);
         slider.setMaximum(2);
@@ -69,6 +72,9 @@ public class Test4View extends javax.swing.JFrame {
         jLabel5.setText("<html><p align=\"center\">Полностью не согласен</p></html>");
 
         btnNext.setLabel("Next >");
+        btnNext.setMaximumSize(new java.awt.Dimension(100, 30));
+        btnNext.setMinimumSize(new java.awt.Dimension(100, 30));
+        btnNext.setPreferredSize(new java.awt.Dimension(100, 30));
         btnNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextActionPerformed(evt);
@@ -76,6 +82,9 @@ public class Test4View extends javax.swing.JFrame {
         });
 
         btnPrev.setLabel("< Prev");
+        btnPrev.setMaximumSize(new java.awt.Dimension(100, 30));
+        btnPrev.setMinimumSize(new java.awt.Dimension(100, 30));
+        btnPrev.setPreferredSize(new java.awt.Dimension(100, 30));
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrevActionPerformed(evt);
@@ -104,10 +113,10 @@ public class Test4View extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(195, 195, 195)
-                .addComponent(btnPrev)
+                .addGap(177, 177, 177)
+                .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnNext))
+                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,10 +140,11 @@ public class Test4View extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPrev)
-                    .addComponent(btnNext)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPrev, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();

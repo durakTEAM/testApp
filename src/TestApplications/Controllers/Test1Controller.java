@@ -38,7 +38,8 @@ public class Test1Controller
         super(usr, test);
         
         this.setListeners();
-        
+        this.view.setTitle((String) test.get("name"));
+        this.view.setLocationRelativeTo(null);
         for (int i = 0; i < ((JSONArray)test.get("questions")).size(); i++) {
             this.questions.add((String) (((JSONObject) ((JSONArray)test.get("questions")).get(i)).get("question")));
             JSONObject[] temp = new JSONObject[4];

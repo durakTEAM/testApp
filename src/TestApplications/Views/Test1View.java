@@ -18,6 +18,7 @@ public class Test1View extends javax.swing.JFrame {
 
     public Test1View() {
         initComponents();
+        setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -43,12 +44,12 @@ public class Test1View extends javax.swing.JFrame {
         text3 = new javax.swing.JSpinner();
         text4 = new javax.swing.JSpinner();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMaximumSize(new java.awt.Dimension(470, 410));
-        setMinimumSize(new java.awt.Dimension(470, 410));
         setPreferredSize(new java.awt.Dimension(470, 410));
         setResizable(false);
+        setSize(new java.awt.Dimension(0, 0));
 
         labelQuestion.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         labelQuestion.setText("Вопрос");
@@ -57,21 +58,25 @@ public class Test1View extends javax.swing.JFrame {
         labelQuestion.setMinimumSize(new java.awt.Dimension(460, 65));
         labelQuestion.setPreferredSize(new java.awt.Dimension(460, 65));
 
+        labelAns1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelAns1.setText("Ответ 1: ");
         labelAns1.setMaximumSize(new java.awt.Dimension(400, 60));
         labelAns1.setMinimumSize(new java.awt.Dimension(400, 60));
         labelAns1.setPreferredSize(new java.awt.Dimension(400, 60));
 
+        labelAns2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelAns2.setText("Ответ 2: ");
         labelAns2.setMaximumSize(new java.awt.Dimension(400, 60));
         labelAns2.setMinimumSize(new java.awt.Dimension(400, 60));
         labelAns2.setPreferredSize(new java.awt.Dimension(400, 60));
 
+        labelAns3.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelAns3.setText("Ответ 3: ");
         labelAns3.setMaximumSize(new java.awt.Dimension(400, 60));
         labelAns3.setMinimumSize(new java.awt.Dimension(400, 60));
         labelAns3.setPreferredSize(new java.awt.Dimension(400, 60));
 
+        labelAns4.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelAns4.setText("Ответ 4: ");
         labelAns4.setMaximumSize(new java.awt.Dimension(400, 60));
         labelAns4.setMinimumSize(new java.awt.Dimension(400, 60));
