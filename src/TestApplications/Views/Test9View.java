@@ -5,7 +5,7 @@
  */
 package TestApplications.Views;
 
-import javax.swing.JSpinner;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,14 +18,6 @@ public class Test9View extends javax.swing.JFrame {
      */
     public Test9View() {
         initComponents();
-        for (int i = 0; i < 15; i++){
-            for(int j=i; j<15; j++){
-                JSpinner a = new JSpinner();
-                this.add(a);
-                        
-            }
-        }
-            
     }
 
     /**
@@ -43,11 +35,11 @@ public class Test9View extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 685, Short.MAX_VALUE)
+            .addGap(0, 1073, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGap(0, 594, Short.MAX_VALUE)
         );
 
         pack();

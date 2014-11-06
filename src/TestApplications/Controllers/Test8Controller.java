@@ -31,7 +31,7 @@ public class Test8Controller implements KeyListener, ActionListener {
     public Test8View view;
     protected JSONObject usr;
     protected JSONObject test;
-     protected Long n;
+    protected Long n;
     String[] res1 = new String[18];
     String[] res2 = new String[18];
     
