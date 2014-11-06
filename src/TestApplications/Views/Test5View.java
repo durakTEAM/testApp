@@ -60,6 +60,7 @@ public class Test5View extends javax.swing.JFrame {
         });
 
         labelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        labelQuestion.setForeground(new java.awt.Color(0, 51, 51));
         labelQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         labelQuestion.setMaximumSize(new java.awt.Dimension(502, 120));
         labelQuestion.setMinimumSize(new java.awt.Dimension(502, 120));

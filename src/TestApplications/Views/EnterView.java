@@ -73,7 +73,7 @@ public class EnterView extends javax.swing.JFrame {
         testsComboBox.setBackground(new java.awt.Color(208, 211, 220));
         testsComboBox.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         testsComboBox.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>", "<html><li>Item 1</li></html>" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -123,7 +123,7 @@ public class EnterView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelOfSendedTests)
                             .addComponent(labelCntOfFinishedTests))
-                        .addGap(0, 362, Short.MAX_VALUE)))
+                        .addGap(0, 392, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -134,8 +134,8 @@ public class EnterView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelOfSendedTests)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -191,7 +191,7 @@ public class EnterView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel labelCntOfFinishedTests;
     public javax.swing.JLabel labelOfSendedTests;
     private javax.swing.JMenu menuTest;

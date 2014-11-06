@@ -99,9 +99,9 @@ public class Test6Controller
             this.view.jButtonNext.setText("Next");
         }
         updateSpinners();
-        view.jLabelQuestion.setText("<html>&#32;&#32;&#32;" + this.questions.get(step)[0] + "</html>");
-        view.jLabelAns1.setText("<html>&#32;<b>1) &#32;</b>" + this.questions.get(step)[1] + "</html>");
-        view.jLabelAns2.setText("<html>&#32;<b>2) &#32;</b>" + this.questions.get(step)[2] + "</html>");
+        view.jLabelQuestion.setText("<html><div align='leading'>&#32;&#32;&#32;" + this.questions.get(step)[0] + "</div></html>");
+        view.jLabelAns1.setText("<html><li>" + this.questions.get(step)[1] + "</li></html>");
+        view.jLabelAns2.setText("<html><li>" + this.questions.get(step)[2] + "</li></html>");
     }
 
     public void next() {

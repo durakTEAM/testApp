@@ -47,6 +47,7 @@ public class Test4View extends javax.swing.JFrame {
         });
 
         labelQuestins.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        labelQuestins.setForeground(new java.awt.Color(0, 51, 51));
         labelQuestins.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelQuestins.setText("Вопрос");
         labelQuestins.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.gray, java.awt.Color.darkGray));

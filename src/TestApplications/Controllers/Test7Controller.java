@@ -86,7 +86,7 @@ public class Test7Controller
         try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
             while(in.hasNextLine()) {
                 StringBuilder str = new StringBuilder();
-                str.append("<html><h3 align='leading'><b>&#32;").append(in.nextLine()).append("</b></h3><p>&#32;&#32;&#32; ").append(in.nextLine()).append("<p>&#32;&#32;&#32; ").append(in.nextLine()).append("<p>&#32;&#32;&#32;").append(in.nextLine()).append("</html>");
+                str.append("<html><h2><strong>&#32;").append(in.nextLine()).append("</strong></h3><ol type=\"I\"><li>").append(in.nextLine()).append("</li><li>").append(in.nextLine()).append("</li><li>").append(in.nextLine()).append("</li></ol></html>");
                 this.questions.add(str.toString());
             }
         } 

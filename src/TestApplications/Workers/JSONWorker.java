@@ -57,6 +57,9 @@ public class JSONWorker {
         try {
             arr = parser.parse(file);
             if (arr instanceof JSONArray) {
+                for(int i = 0; i < ((JSONArray)arr).size(); i++) {
+                    convertArraysToInt((JSONObject)((JSONArray)arr).get(i));
+                }
                 return (JSONArray)arr;
             } else {
                 if (path.equals("users/users.json")) {
@@ -103,7 +106,8 @@ public class JSONWorker {
     static private JSONArray longToInt(JSONArray arr) {
         JSONArray a = new JSONArray();
         for (Object i : arr) {
-            a.add((int)((Long)i).intValue());
+            if (i instanceof Long) a.add((int)((Long)i).intValue());
+            else a.add(i);
         }
         return a;
     }
@@ -130,13 +134,13 @@ public class JSONWorker {
         if (usr.containsKey("sendedResults")) {
             usr.put("sendedResults", longToInt((JSONArray) usr.get("sendedResults")));
         }
-        if (usr.containsKey("ID")) {
+        if (usr.containsKey("ID") && usr.get("ID") instanceof Long) {
             usr.put("ID", ((Long)usr.get("ID")).intValue());
         }
-        if (usr.containsKey("type")) {
+        if (usr.containsKey("type") && usr.get("type") instanceof Long) {
             usr.put("type", ((Long)usr.get("type")).intValue());
         }
-        if (usr.containsKey("fact")) {
+        if (usr.containsKey("fact") && usr.get("fact") instanceof Long) {
             usr.put("fact", ((Long)usr.get("fact")).intValue());
         }
         if (usr.containsKey("ans1") && usr.get("ans1") instanceof Long) {

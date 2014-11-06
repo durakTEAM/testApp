@@ -38,11 +38,12 @@ public class Test7View extends javax.swing.JFrame {
         rb22 = new javax.swing.JCheckBox();
         rb23 = new javax.swing.JCheckBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        labelQuestion.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        labelQuestion.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
+        labelQuestion.setForeground(new java.awt.Color(0, 51, 51));
         labelQuestion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelQuestion.setText("123");
+        labelQuestion.setText("123\nwerfgrg\nwrg5gwg5");
         labelQuestion.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 153, 153), new java.awt.Color(0, 102, 102)));
         labelQuestion.setMaximumSize(new java.awt.Dimension(552, 173));
         labelQuestion.setMinimumSize(new java.awt.Dimension(552, 173));

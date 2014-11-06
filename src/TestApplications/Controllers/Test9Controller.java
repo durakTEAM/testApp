@@ -8,16 +8,9 @@ package TestApplications.Controllers;
 import TestApplications.ImagePanel;
 import TestApplications.Views.Test9View;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import org.json.simple.JSONObject;
@@ -26,7 +19,9 @@ import org.json.simple.JSONObject;
  *
  * @author aleksejtitorenko
  */
-public class Test9Controller implements MouseListener {
+public class Test9Controller
+    extends TestController
+    implements MouseListener {
 
     public Test9View view;
     protected JSONObject usr;
@@ -34,17 +29,15 @@ public class Test9Controller implements MouseListener {
     protected Long n;
     public ImagePanel panel;
   
-    Test9Controller(JSONObject test, JSONObject usr) throws IOException {
+    Test9Controller(JSONObject test, JSONObject usr) {
+        super(test, usr);
         this.test = test;
-        this.usr = usr;
-        n = (Long) test.get("number");
         view = new Test9View();
         view.setVisible(true);
         panel = new ImagePanel(new ImageIcon("tests/table.png").getImage());
         panel.setSize(800, 800);
         view.add(panel);
         this.setListeners();
-        
     }
 
 
@@ -83,5 +76,10 @@ public class Test9Controller implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    int getTestCnt() {
+        return 0;
     }
 }

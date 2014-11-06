@@ -17,9 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import org.json.simple.JSONObject;
 
@@ -27,7 +26,10 @@ import org.json.simple.JSONObject;
  *
  * @author aleksejtitorenko
  */
-public class Test8Controller implements KeyListener, ActionListener {
+public class Test8Controller 
+    extends TestController
+    implements KeyListener, ActionListener {
+    
     public Test8View view;
     protected JSONObject usr;
     protected JSONObject test;
@@ -37,10 +39,9 @@ public class Test8Controller implements KeyListener, ActionListener {
     
         
 
-    Test8Controller(JSONObject test, JSONObject usr) throws FileNotFoundException  {
-        this.usr = usr;
+    Test8Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
+        super(test, usr);
         this.test = test;
-        n = (Long) test.get("number");
         this.view = new Test8View();
         view.setVisible(true);
         this.setListeners();
@@ -66,7 +67,6 @@ public class Test8Controller implements KeyListener, ActionListener {
                 listmodel2.addElement(in.nextLine());
             }
         }
-
         view.setLocationRelativeTo(null);
     }
     
@@ -74,10 +74,7 @@ public class Test8Controller implements KeyListener, ActionListener {
         view.jButtonFinish.addActionListener(this);
     }
     public void finishTest() throws Exception {
-        for (int i = 0; i < 18; i++) {
-            res1[i] = view.list.getModel().getElementAt(i).toString() + "\n";
-            res2[i] = view.list2.getModel().getElementAt(i).toString() + "\n";
-        }
+        
         StringBuilder str = new StringBuilder();
         
         for (String res11 : res1) {
@@ -88,13 +85,10 @@ public class Test8Controller implements KeyListener, ActionListener {
         for (String res22 : res2){
             str2.append(res22);
         }
-       
- 
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults","Терминальные ценности;\n"+str.toString()+"Инструментальные ценности\n"+str2.toString(), n.byteValue());
         FileWorker.write("users/users.json", usr);
         view.setVisible(false); 
-        
     }
 
     @Override
@@ -116,7 +110,16 @@ public class Test8Controller implements KeyListener, ActionListener {
         try {
             this.finishTest();
         } catch (Exception ex) {
-            Logger.getLogger(Test8View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(view, "Невозможно записать результаты теста");
         }
+    }
+
+    @Override
+    int getTestCnt() {
+        for (int i = 0; i < 18; i++) {
+            res1[i] = view.list.getModel().getElementAt(i).toString() + "\n";
+            res2[i] = view.list2.getModel().getElementAt(i).toString() + "\n";
+        }
+        return 0;
     }
 }

@@ -47,11 +47,10 @@ public class Test1View extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(470, 410));
         setResizable(false);
-        setSize(new java.awt.Dimension(0, 0));
 
         labelQuestion.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
+        labelQuestion.setForeground(new java.awt.Color(0, 51, 51));
         labelQuestion.setText("Вопрос");
         labelQuestion.setBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.disabledText")));
         labelQuestion.setMaximumSize(new java.awt.Dimension(460, 65));

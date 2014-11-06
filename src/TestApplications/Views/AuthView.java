@@ -68,6 +68,9 @@ public class AuthView extends javax.swing.JFrame {
             }
         });
 
+        createUserButton.setBackground(new java.awt.Color(187, 189, 189));
+        createUserButton.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        createUserButton.setForeground(new java.awt.Color(51, 51, 51));
         createUserButton.setText("Новый пользователь");
         createUserButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -75,6 +78,9 @@ public class AuthView extends javax.swing.JFrame {
             }
         });
 
+        enterUserButton.setBackground(new java.awt.Color(187, 189, 189));
+        enterUserButton.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        enterUserButton.setForeground(new java.awt.Color(51, 51, 51));
         enterUserButton.setText("Войти");
         enterUserButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -87,17 +93,31 @@ public class AuthView extends javax.swing.JFrame {
             }
         });
 
+        usersList.setBackground(new java.awt.Color(153, 153, 153));
         usersList.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.UIManager.getDefaults().getColor("List.foreground"), null));
-        usersList.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        usersList.setFont(new java.awt.Font("Arial Black", 3, 15)); // NOI18N
+        usersList.setForeground(new java.awt.Color(153, 204, 255));
+        usersList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "<html><li>123</li></html>", "qwe", "asd", "zcx", "цвкк" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
         usersList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         usersList.setToolTipText("Выберите пользователя");
-        usersList.setSelectionBackground(java.awt.SystemColor.textHighlight);
+        usersList.setSelectionBackground(new java.awt.Color(51, 102, 204));
+        usersList.setSelectionForeground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(usersList);
 
+        jMenuBar1.setBackground(new java.awt.Color(153, 153, 153));
         jMenuBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        jMenuBar1.setForeground(new java.awt.Color(75, 69, 70));
 
+        jMenu1.setBackground(new java.awt.Color(153, 153, 153));
+        jMenu1.setForeground(new java.awt.Color(75, 69, 70));
         jMenu1.setText("Файл");
 
+        menuNewFile.setBackground(new java.awt.Color(153, 153, 153));
+        menuNewFile.setForeground(new java.awt.Color(75, 69, 70));
         menuNewFile.setText("Новый пользователь");
         menuNewFile.setToolTipText("Создать нового пользователя");
         menuNewFile.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +127,8 @@ public class AuthView extends javax.swing.JFrame {
         });
         jMenu1.add(menuNewFile);
 
+        menuExit.setBackground(new java.awt.Color(153, 153, 153));
+        menuExit.setForeground(new java.awt.Color(75, 69, 70));
         menuExit.setText("Выход");
         menuExit.setToolTipText("Выйти из программы");
         jMenu1.add(menuExit);
@@ -122,11 +144,10 @@ public class AuthView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(enterUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(createUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(enterUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(createUserButton, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

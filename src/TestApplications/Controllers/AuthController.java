@@ -51,8 +51,11 @@ public class AuthController implements WindowListener, ListSelectionListener, Ac
         try {
             this.usersArray = JSONWorker.open("users/users.json");
             for (Object i : this.usersArray) {
-                String temp = String.valueOf(((JSONObject)i).get("ID")) + ")\t" + ((JSONObject)i).get("lastName") + "\t" + ((JSONObject)i).get("name") + "\t" + ((JSONObject)i).get("firstName");
-                listmodel.addElement(temp);
+                StringBuilder temp = new StringBuilder();
+                temp.append("<html><div align='left'><li type='circle'>");
+                temp.append((((JSONObject)i).get("lastName")) + " ");
+                temp.append(((JSONObject)i).get("name") + " ").append(((JSONObject)i).get("firstName") + " ").append("</li></div></html>");
+                listmodel.addElement(temp.toString());
             }
             this.view.usersList.setModel(listmodel);
             this.view.usersList.setSelectedIndex(-1);

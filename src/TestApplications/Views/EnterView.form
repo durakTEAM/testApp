@@ -87,7 +87,7 @@
                           <Component id="labelOfSendedTests" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="labelCntOfFinishedTests" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="362" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="392" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -102,8 +102,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="labelOfSendedTests" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="396" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -116,6 +116,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
@@ -130,12 +131,17 @@
               <Font name="Lucida Grande" size="14" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-                <StringItem index="4" value="Item 5"/>
+              <StringArray count="10">
+                <StringItem index="0" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="1" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="2" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="3" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="4" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="5" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="6" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="7" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="8" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
+                <StringItem index="9" value="&lt;html&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;/html&gt;"/>
               </StringArray>
             </Property>
             <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">

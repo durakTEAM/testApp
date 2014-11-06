@@ -7,12 +7,6 @@ package TestApplications.Controllers;
 
 import TestApplications.Views.AuthView;
 import TestApplications.Views.EnterView;
-import TestApplications.Views.Test3View;
-import TestApplications.Views.Test4View;
-import TestApplications.Views.Test5View;
-import TestApplications.Views.Test6View;
-import TestApplications.Views.Test7View;
-import TestApplications.Views.Test8View;
 import TestApplications.Workers.CSVWorker;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
@@ -33,6 +27,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -73,11 +68,7 @@ public class EnterController implements ActionListener, ListDataListener,
             this.view.setVisible(false);
             this.view.dispose();
         }
-        DefaultListModel listmodel = new DefaultListModel();
-        for (int i = 0; i < this.testsArray.size(); i++) {
-            listmodel.addElement(JSONWorker.get(testsArray, i).get("name"));
-        }
-        this.view.testsComboBox.setModel(listmodel);
+        this.updateListModel();
         this.view.testsComboBox.addListSelectionListener(this);
     }
     
@@ -117,7 +108,7 @@ public class EnterController implements ActionListener, ListDataListener,
         if (j == 1) {
             this.view.menuTestStart.setEnabled(false);
             this.view.menuTestStart.setText("Вы уже прошли этот тест");
-            
+            this.view.testsComboBox.clearSelection();
         } else {
             this.view.menuTestStart.setEnabled(true);
             this.view.menuTestStart.setText("Пройти тест");
@@ -138,6 +129,7 @@ public class EnterController implements ActionListener, ListDataListener,
     }
 
     public void sendResults() throws Exception {
+        this.view.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         try {
             CSVWorker.makeCSVTemplate((int) usr.get("ID"));
             try {
@@ -152,7 +144,9 @@ public class EnterController implements ActionListener, ListDataListener,
             }
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(view, ex.getMessage());
-        } 
+        } finally {
+            this.view.setCursor(null);
+        }
     }
 
     public void startTest() throws FileNotFoundException, IOException, Exception {
@@ -181,10 +175,10 @@ public class EnterController implements ActionListener, ListDataListener,
             test = new Test7Controller((JSONObject) testsArray.get(i), usr);
         }
         if (j == 8){
-            new Test8Controller((JSONObject) testsArray.get(i), usr);
+            test = new Test8Controller((JSONObject) testsArray.get(i), usr);
         }
         if (j == 9) {
-            new Test9Controller((JSONObject) testsArray.get(i), usr);
+            test = new Test9Controller((JSONObject) testsArray.get(i), usr);
         }
     }
 
@@ -268,6 +262,7 @@ public class EnterController implements ActionListener, ListDataListener,
     public void windowActivated(WindowEvent e) {
         try {
             this.updateSendButton();
+            this.updateListModel();
             this.updateTestBtn();
             this.setUserInfo();
         } catch (Exception ex) {
@@ -309,5 +304,20 @@ public class EnterController implements ActionListener, ListDataListener,
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    private void updateListModel() {
+        DefaultListModel listmodel = new DefaultListModel();
+        for (int i = 0; i < this.testsArray.size(); i++) {
+            int j = (int) ((JSONArray)this.usr.get("testsArray")).get(i);
+            StringBuilder temp = new StringBuilder((String) ((JSONObject)this.testsArray.get(i)).get("name"));
+            if (j == 1) {
+                temp.insert(0, "<html><li><font color='6699FF'><strike>").append("</strike></font>&#32;&#32;&#32;&#32&#10004;</li></html>");
+            } else {
+                temp.insert(0, "<html><li>").append("</li></html>");
+            }
+            listmodel.addElement(temp.toString());
+        }
+        this.view.testsComboBox.setModel(listmodel);
     }
 }
