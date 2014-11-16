@@ -139,6 +139,9 @@ public class EnterController {
             if (j == 9) {
                 new Test9Controller((JSONObject) testsArray.get(i), usr);
             }
+            if (j == 10) {
+                new Test10Controller((JSONObject) testsArray.get(i), usr);
+            }
         } catch (Exception ex) {
             Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
         }    

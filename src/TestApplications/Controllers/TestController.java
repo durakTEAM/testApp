@@ -16,15 +16,13 @@ import org.json.simple.JSONObject;
  * @author artemsamsonov
  */
 public abstract class TestController {
-    protected JFrame view;
     protected Long n;
     protected JSONObject usr;
-    protected JSONObject test;
     
     public TestController(JSONObject usr, JSONObject test) {
         this.usr = usr;
-        this.test = test;
-        n = (Long) test.get("number");
+        this.n = (Long) test.get("number");
+        System.out.print(n);
     }
     
     public void finishTest() throws Exception {
@@ -32,7 +30,7 @@ public abstract class TestController {
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults", res, n.byteValue());
         FileWorker.write("users/users.json", usr);
-        this.view.setVisible(false);
+       
     }
     
     abstract int getTestCnt();

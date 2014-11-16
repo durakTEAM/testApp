@@ -20,6 +20,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import org.json.simple.JSONObject;
 
@@ -65,8 +66,10 @@ public class Test8Controller implements KeyListener, ActionListener {
             for (int i = 0; i < 18; i++) {
                 listmodel2.addElement(in.nextLine());
             }
+            in.close();
+        }catch(FileNotFoundException ex){
+            JOptionPane.showMessageDialog(view, ex.getMessage());
         }
-
         view.setLocationRelativeTo(null);
     }
     
@@ -94,7 +97,7 @@ public class Test8Controller implements KeyListener, ActionListener {
         JSONWorker.updateUsr(usr, "testsResults","Терминальные ценности;\n"+str.toString()+"Инструментальные ценности\n"+str2.toString(), n.byteValue());
         FileWorker.write("users/users.json", usr);
         view.setVisible(false); 
-        
+        view.dispose();
     }
 
     @Override
