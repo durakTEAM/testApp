@@ -180,6 +180,12 @@ public class EnterController implements ActionListener, ListDataListener,
         if (j == 9) {
             test = new Test9Controller((JSONObject) testsArray.get(i), usr);
         }
+        if (j == 10) {
+            new Test10Controller((JSONObject) testsArray.get(i), usr);
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(EnterView.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     @Override

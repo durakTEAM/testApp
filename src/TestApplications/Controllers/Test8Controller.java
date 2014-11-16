@@ -66,6 +66,9 @@ public class Test8Controller
             for (int i = 0; i < 18; i++) {
                 listmodel2.addElement(in.nextLine());
             }
+            in.close();
+        }catch(FileNotFoundException ex){
+            JOptionPane.showMessageDialog(view, ex.getMessage());
         }
         view.setLocationRelativeTo(null);
     }
@@ -88,7 +91,8 @@ public class Test8Controller
         JSONWorker.updateUsr(usr, "testsArray", 1, n.byteValue());
         JSONWorker.updateUsr(usr, "testsResults","Терминальные ценности;\n"+str.toString()+"Инструментальные ценности\n"+str2.toString(), n.byteValue());
         FileWorker.write("users/users.json", usr);
-        view.setVisible(false); 
+        view.setVisible(false);
+        view.dispose();
     }
 
     @Override

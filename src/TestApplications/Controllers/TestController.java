@@ -17,7 +17,6 @@ import org.json.simple.JSONObject;
 public abstract class TestController {
     protected Long n;
     protected JSONObject usr;
-    protected JSONObject test;
     
     public TestController(JSONObject usr, JSONObject test) {
         this.usr = usr;
