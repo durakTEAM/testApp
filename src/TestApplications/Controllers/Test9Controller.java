@@ -35,7 +35,8 @@ public class Test9Controller
         view = new Test9View();
         view.setVisible(true);
         panel = new ImagePanel(new ImageIcon("tests/table.png").getImage());
-        panel.setSize(800, 800);
+        panel.setSize(601, 414);
+        panel.setLocation(100, 100);
         view.add(panel);
         this.setListeners();
     }
@@ -61,8 +62,8 @@ public class Test9Controller
         int y = e.getY();
         JLabel a = new JLabel();
         panel.add(a);
-        a.setLocation(x, y);
-        a.setSize(new Dimension(20,20));
+        a.setSize(36, 22);
+        a.setLocation((x/36)+18, y);
         a.setText("2");
         view.pack();
     }
