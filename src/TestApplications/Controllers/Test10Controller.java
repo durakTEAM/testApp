@@ -52,8 +52,8 @@ private ArrayList <JSlider> sliders = new ArrayList<>();
         view.add(buttonNext);
         buttonNext.setText("Далее");
         buttonNext.setSize(90, 30);
-        buttonNext.setLocation(600, 300);
-        labelSituation.setSize(new Dimension(700, 100));
+        buttonNext.setLocation(150, 250);
+        labelSituation.setSize(new Dimension(370, 250));
         labelSituation.setLocation(10, 10);
         labelSituation.setVerticalAlignment(TOP);
         view.add(labelFeels);
@@ -87,7 +87,7 @@ private ArrayList <JSlider> sliders = new ArrayList<>();
     private void updateLabels(){
         StringBuilder temp = new StringBuilder();
         labelSituation.setText("<html>"+questions.get(step)[0]+"</html>");
-        labelSituation.setFont(new Font("Arial", Font.BOLD , 18));
+        labelSituation.setFont(new Font("Arial", Font.BOLD , 16));
         
         temp.append("<html><ul>");
         for (int i = 1; i < questions.get(step).length; i++){

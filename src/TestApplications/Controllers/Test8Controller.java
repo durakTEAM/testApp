@@ -75,7 +75,7 @@ public class Test8Controller
         view.jButtonFinish.addActionListener(this);
     }
     public void finishTest() throws Exception {
-        
+        this.getTestCnt();
         StringBuilder str = new StringBuilder();
         
         for (String res11 : res1) {

@@ -31,7 +31,7 @@ public class Test9View extends javax.swing.JFrame {
 
         buttonEnd = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         buttonEnd.setText("Завершить тест");
 

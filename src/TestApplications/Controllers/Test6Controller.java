@@ -135,7 +135,7 @@ public class Test6Controller
             }
         }
         
-        strOfResults = "\n1. Финансовые мотивы;" + results[0] + ";\n"
+        strOfResults = "1. Финансовые мотивы;" + results[0] + ";\n"
                 + "2. Общественное признание;" + results[1] + ";\n"
                 + "3. Ответственность работы;" + results[2] + ";\n"
                 + "4. Отношение с руководством;" + results[3] + ";\n"

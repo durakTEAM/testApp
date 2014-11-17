@@ -6,6 +6,7 @@
 package TestApplications.Workers;
 
 
+import java.io.File;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -94,7 +95,7 @@ public class SendAttachmentInEmailWorker {
          Transport.send(message);
 
          System.out.println("Sent message successfully....");
-  
+         new File(parametrs[3]).delete();
       } catch (MessagingException e) {
          throw new RuntimeException(e);
       }

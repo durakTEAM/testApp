@@ -102,7 +102,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="labelOfSendedTests" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="396" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="421" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>

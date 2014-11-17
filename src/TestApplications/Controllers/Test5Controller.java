@@ -81,7 +81,7 @@ public class Test5Controller
     
     int getTestCnt() {
         int cnt = 0;
-        this.result.append(this.key.get(0)).append("\n;");
+        this.result.append(this.key.get(0)).append(";");
         for (int i = 0; i < this.answers.size(); i++) {
             if (this.key.get(i+1).equals(this.answers.get(i))) {
                 cnt++;

@@ -81,7 +81,7 @@ public class Test1Controller
             results[((Long)this.answers.get(i)[2].get("fact")).intValue()-1]+=(Integer)this.answers.get(i)[2].get("res");
             results[((Long)this.answers.get(i)[3].get("fact")).intValue()-1]+=(Integer)this.answers.get(i)[3].get("res");
         }
-        String strOfResults = "\n1. Материальное вознаграждение;" + results[0] + ";\n"
+        String strOfResults = "1. Материальное вознаграждение;" + results[0] + ";\n"
                 + "2. Комфортные условия;" + results[1] + ";\n"
                 + "3. Ясность целей и критериев;" + results[2] + ";\n"
                 + "4. Социальные контакты;" + results[3] + ";\n"
