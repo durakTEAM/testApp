@@ -31,16 +31,14 @@ public class Test8Controller
     implements KeyListener, ActionListener {
     
     public Test8View view;
-    protected JSONObject usr;
     protected JSONObject test;
-    protected Long n;
     String[] res1 = new String[18];
     String[] res2 = new String[18];
     
         
 
     Test8Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
-        super(test, usr);
+        super(usr, test);
         this.test = test;
         this.view = new Test8View();
         view.setVisible(true);

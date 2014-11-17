@@ -10,9 +10,6 @@ import TestApplications.Views.Test9View;
 import TestApplications.Workers.FileWorker;
 import TestApplications.Workers.JSONWorker;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -24,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -39,6 +37,12 @@ public class Test9Controller extends TestController implements MouseListener, Ac
 
     private Test9View view;
     public ImagePanel panel;
+    
+    private final JLabel[] header = new JLabel[15];
+    private final JLabel[][] labelsArray = new JLabel[15][15];
+    private final Set<List> answersSet = new HashSet<>();
+    private int[] res = new int[15];
+    private JSONObject test;
   
     Test9Controller(JSONObject test, JSONObject usr) throws FileNotFoundException {
         super(usr, test);
@@ -77,7 +81,7 @@ public class Test9Controller extends TestController implements MouseListener, Ac
         }
 
     }
-    public void listOfTerms(){
+    private void listOfTerms(){
         JLabel instructionLabel = new JLabel ();
         StringBuilder instStr = new StringBuilder();
         try(Scanner instr = new Scanner(new File("tests/instructionTest9.txt"))){           
