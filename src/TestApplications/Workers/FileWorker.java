@@ -5,10 +5,13 @@
  */
 package TestApplications.Workers;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,14 +28,14 @@ public class FileWorker {
      * @throws Exception 
      */
     static public void write(CharSequence file, JSONObject obj) throws FileNotFoundException, Exception {
-        try (FileReader f = new FileReader((String) file)) {
+        try (InputStreamReader f =  new InputStreamReader(new FileInputStream((String) file), "UTF-8")) {
             JSONArray x = JSONWorker.open(file);
             if (x.size() == (int)obj.get("ID")) {
                 x.add(obj);
             } else {
                 x.set((int)obj.get("ID"), obj);
             }
-            FileWriter fileW = new FileWriter((String) file);
+            BufferedWriter fileW = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((String) file), "UTF-8"));
             fileW.append(x.toString());
             fileW.flush();
         } catch (FileNotFoundException ex) {
@@ -40,9 +43,9 @@ public class FileWorker {
         }
     }
     static public void createFile(CharSequence path, String content) throws IOException {
-        FileWriter fw;
+        BufferedWriter fw;
         try {
-            fw = new FileWriter((String) path);
+            fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((String) path), "UTF-8"));
             fw.append(content);
             fw.flush();
         } catch (IOException ex) {

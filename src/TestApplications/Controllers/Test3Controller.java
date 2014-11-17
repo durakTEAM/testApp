@@ -15,9 +15,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -48,7 +49,7 @@ public class Test3Controller
         this.view.setVisible(true);
         this.view.setTitle((String) t.get("name"));
         this.setListeners();
-        CSVReader reader = new CSVReader(new FileReader((String) t.get("path")), ';');
+        CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream((String) t.get("path")), "UTF-8"), ';');
         test = reader.readAll();
         String str = (String) t.get("key");
         for (String i : str.split("; ")) {

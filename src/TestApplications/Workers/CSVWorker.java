@@ -6,8 +6,10 @@
 package TestApplications.Workers;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -21,7 +23,7 @@ public class CSVWorker {
         JSONArray arr = JSONWorker.open("tests/test1.json");
         JSONObject usr = JSONWorker.open("users/users.json", id);
         char q = 0;
-        try (CSVWriter writer = new CSVWriter(new FileWriter("user"+id+"res.csv"), '\n', q)) {
+        try (CSVWriter writer = new CSVWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream("res" + usr.get("ID") + ".csv"), "UTF-8")), '\n', q)) {
             String[] entries = new String[arr.size()+3];
             
             entries[0] = "ФИО:;" + usr.get("lastName") + " " + usr.get("name")

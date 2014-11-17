@@ -83,14 +83,14 @@ public class Test7Controller
         this.view.setVisible(true);
         this.setListeners();
         this.view.setTitle((String) test.get("name"));
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
             while(in.hasNextLine()) {
                 StringBuilder str = new StringBuilder();
                 str.append("<html><h2><strong>&#32;").append(in.nextLine()).append("</strong></h3><ol type=\"I\"><li>").append(in.nextLine()).append("</li><li>").append(in.nextLine()).append("</li><li>").append(in.nextLine()).append("</li></ol></html>");
                 this.questions.add(str.toString());
             }
         } 
-        try (Scanner in = new Scanner(new File((String) test.get("key")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("key")), "UTF-8")) {
             while(in.hasNext()) {
                 this.key.add(in.next().split("#"));
             }

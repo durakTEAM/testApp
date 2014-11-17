@@ -43,11 +43,11 @@ public class Test5Controller
         this.view = new Test5View();
         this.setListeners();
         this.view.setTitle((String) test.get("name"));
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
         } 
-        try (Scanner in = new Scanner(new File((String) test.get("key")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("key")), "UTF-8")) {
             while(in.hasNext())
                 this.key.add(in.nextLine());
         } 

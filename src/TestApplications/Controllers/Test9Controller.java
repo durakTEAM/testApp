@@ -84,7 +84,7 @@ public class Test9Controller extends TestController implements MouseListener, Ac
     private void listOfTerms(){
         JLabel instructionLabel = new JLabel ();
         StringBuilder instStr = new StringBuilder();
-        try(Scanner instr = new Scanner(new File("tests/instructionTest9.txt"))){           
+        try(Scanner instr = new Scanner(new File("tests/instructionTest9.txt"), "UTF-8")){           
             while(instr.hasNextLine()){
                 instStr.append(instr.nextLine());
             }
@@ -97,7 +97,7 @@ public class Test9Controller extends TestController implements MouseListener, Ac
             Logger.getLogger(Test9Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        try(Scanner in1 = new Scanner(new File ((String)test.get("qPath")))){
+        try(Scanner in1 = new Scanner(new File ((String)test.get("qPath")), "UTF-8")){
             for (int i = 0; i < 15; i++){
                 JLabel term = new JLabel();
                 view.add(term);
@@ -179,7 +179,7 @@ public class Test9Controller extends TestController implements MouseListener, Ac
     public void finishTest()  {
         this.getTestCnt();
         StringBuilder finishResults = new StringBuilder();
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
                 for (int i = 0; i < 15; i++) {
                     finishResults.append(in.nextLine()).append(";").append(res[i]).append(";\n");
                 }  

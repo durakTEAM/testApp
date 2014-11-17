@@ -52,7 +52,7 @@ public class Test6Controller
             int[] tmp = new int[2];
             answers.add(tmp);
         }
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
 
             for (int i = 0; i < 28; i++) {
                 String[] str = new String[3];
@@ -62,7 +62,7 @@ public class Test6Controller
                 this.questions.add(str);
             }
         }
-        try (Scanner in = new Scanner(new File((String) test.get("key")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("key")), "UTF-8")) {
             while (in.hasNextLine()) {
                 for (int i = 0; i < 28; i++) {
                     Integer[] str = new Integer[2];

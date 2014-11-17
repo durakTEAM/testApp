@@ -5,13 +5,15 @@
  */
 package TestApplications.Workers;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -53,7 +55,7 @@ public class JSONWorker {
             }
         }
         Object arr;
-        FileReader file = new FileReader((String) path);
+        InputStreamReader file = new InputStreamReader(new FileInputStream((String) path), "UTF-8");
         try {
             arr = parser.parse(file);
             if (arr instanceof JSONArray) {
@@ -92,7 +94,7 @@ public class JSONWorker {
     static public JSONObject open(CharSequence path, int id) throws FileNotFoundException, Exception {
         JSONParser parser = new JSONParser();
         JSONArray arr;
-        try (FileReader file = new FileReader((String) path)) {
+        try (InputStreamReader file = new InputStreamReader(new FileInputStream((String) path), "UTF-8");) {
             arr = (JSONArray) parser.parse(file);
         } catch (FileNotFoundException ex) {
             throw new FileNotFoundException(ex.getLocalizedMessage() + "\nФайл "+path+" не найден");
@@ -154,7 +156,7 @@ public class JSONWorker {
     private static void createUsersFile(CharSequence path, File f) throws Exception {
         if (path.equals("users/users.json")) {
             try {
-                FileWriter fw = new FileWriter(f);
+                BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream((String) path), "UTF-8"));
                 fw.write("[]");
                 fw.flush();
             } catch (IOException ex) {

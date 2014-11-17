@@ -39,7 +39,7 @@ public class Test4Controller
         this.view = new Test4View();
         this.view.setVisible(true);
         this.view.setTitle((String) test.get("name"));
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
             while(in.hasNext())
                 this.questions.add(in.nextLine());
         }

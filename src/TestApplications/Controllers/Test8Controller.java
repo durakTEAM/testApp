@@ -57,7 +57,7 @@ public class Test8Controller
         view.list2.addMouseListener(listener2);
         view.list2.addMouseMotionListener(listener2);
 
-        try (Scanner in = new Scanner(new File((String) test.get("qPath")))) {
+        try (Scanner in = new Scanner(new File((String) test.get("qPath")), "UTF-8")) {
             for (int i = 0; i < 18; i++) {
                 listmodel.addElement(in.nextLine());
             }

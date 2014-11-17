@@ -62,7 +62,7 @@ private ArrayList <JSlider> sliders = new ArrayList<>();
         labelFeels.setVerticalAlignment(TOP);
         view.pack();
         StringBuilder allText = new StringBuilder();
-        try(Scanner in = new Scanner(new File("tests/test10"))){
+        try(Scanner in = new Scanner(new File("tests/test10"), "UTF-8")){
             while(in.hasNextLine()){
                 String c = in.nextLine();
                 if(c.equals("#")) {
@@ -99,7 +99,7 @@ private ArrayList <JSlider> sliders = new ArrayList<>();
     }
     @Override
     int getTestCnt() {
-        try(Scanner inKey = new Scanner(new File("tests/key10"))){
+        try(Scanner inKey = new Scanner(new File("tests/key10"), "UTF-8")){
             while(inKey.hasNextLine()){
                 for (int i = 0; i < 108; i++){
                 this.key[i] = inKey.nextInt();

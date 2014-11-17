@@ -45,16 +45,16 @@ public class EnterController implements ActionListener, ListDataListener,
     private JSONArray sendedResults;
     private JSONArray complitedTests;
     
-    private final String to = "a.a.titorenko@gmail.com";
-    private final String from = "samsonov68rus@gmail.com";
-    private final String password = "cfvcjyjdfhn`v";
+    private final String to = "mormulevskaya@me.com";
+    private final String from = "mephi.tests@gmail.com";
+    private final String password = "rtyfghvbn1";
     private String filename;
     
     public EnterController(EnterView view, JSONObject usr) throws Exception{
         this.view = view;
         this.usr = usr;
         
-        this.filename = "user"+usr.get("ID")+"res.csv";
+        this.filename = "res"+usr.get("ID")+".csv";
         
         try {
             this.testsArray = JSONWorker.open("tests/test1.json");
@@ -134,7 +134,8 @@ public class EnterController implements ActionListener, ListDataListener,
             CSVWorker.makeCSVTemplate((int) usr.get("ID"));
             try {
                 SendAttachmentInEmailWorker.send(this.to, this.from, this.password, this.filename);
-                usr.put("sendedResults", (JSONArray) usr.get("testsArray"));
+                JSONArray temp = this.copyArr((JSONArray) usr.get("testsArray"));
+                usr.put("sendedResults", temp);
                 FileWorker.write("users/users.json", usr);
                 this.updateSendButton();
                 this.setUserInfo();
@@ -147,6 +148,14 @@ public class EnterController implements ActionListener, ListDataListener,
         } finally {
             this.view.setCursor(null);
         }
+    }
+    
+    private JSONArray copyArr(JSONArray a) {
+        JSONArray temp = new JSONArray();
+        for (Object i : a) {
+            temp.add(i);
+        }
+        return temp;
     }
 
     public void startTest() throws FileNotFoundException, IOException, Exception {
